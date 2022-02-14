@@ -32,6 +32,9 @@ public class LogbookRepositoryImpl implements LogbookRepository {
     //language=SQL
     private final String SQL_FIND_NOTES_BY_USER = "select * from logbook where user_id = ?";
 
+    //language=SQL
+    private final String SQL_FIND_NOTES_BY_ID = "select * from logbook where note_id = ?";
+
 
     public LogbookRepositoryImpl(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -81,7 +84,7 @@ public class LogbookRepositoryImpl implements LogbookRepository {
     @Override
     public void deleteNoteById(Long noteId) {
         LogbookService logbookService = new LogbookServiceImpl(this);
-        if (logbookRepository.findById(noteId)!=null) {
+        if (logbookRepository.findById(noteId) != null) {
             try (Connection connection = dataSource.getConnection();
                  PreparedStatement statement = connection.prepareStatement(SQL_DELETE_NOTE)) {
 
@@ -98,6 +101,7 @@ public class LogbookRepositoryImpl implements LogbookRepository {
             }
         }
     }
+
 
     @Override
     public void updateNote(Note note) {
@@ -121,10 +125,19 @@ public class LogbookRepositoryImpl implements LogbookRepository {
 
     @Override
     public Note findById(Long noteId) { // может кто-то переделает на Optional<Note>?
-        if (logbookRepository.findById(noteId)!=null) {
-            return logbookRepository.findById(noteId);
-        } else {
-            throw new IllegalArgumentException("note not found");
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_NOTES_BY_ID)) {
+            statement.setLong(1, noteId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return noteMapper.apply(resultSet);
+                } else {
+                    throw new IllegalArgumentException("note not found");
+                }
+            }
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
         }
     }
 
