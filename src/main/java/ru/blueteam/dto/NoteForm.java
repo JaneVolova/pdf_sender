@@ -1,4 +1,4 @@
-package ru.blueteam.model;
+package ru.blueteam.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,12 +11,8 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Data
-public class Note {
-
-    private Long noteId; // нужен ли id записи, будем обращаться ли нет
-
-    private Long userId;
+public class NoteForm {
     private Date date;
     private String description;
-    private Boolean isDeleted;
+    protected Long userId;
 }
