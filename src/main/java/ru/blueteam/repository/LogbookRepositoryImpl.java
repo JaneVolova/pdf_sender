@@ -120,8 +120,12 @@ public class LogbookRepositoryImpl implements LogbookRepository {
     }
 
     @Override
-    public Note findById(Long noteId) {
-        return null;
+    public Note findById(Long noteId) { // может кто-то переделает на Optional<Note>?
+        if (logbookRepository.findById(noteId)!=null) {
+            return logbookRepository.findById(noteId);
+        } else {
+            throw new IllegalArgumentException("note not found");
+        }
     }
 
     @Override
