@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 
-public class LogbookRepositoryImpl implements LogbookRepository {
+public class LogbookRepositoryImpl implements LogbookRepository { ///rjvv
 
     private final DataSource dataSource;
     private LogbookService logbookService;
