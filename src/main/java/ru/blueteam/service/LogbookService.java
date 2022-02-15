@@ -9,7 +9,15 @@ import java.util.List;
 public interface LogbookService {
 
     void createNote(NoteForm form);
+
     List<Note> listNodesByDate(Date date);
+
+    List<Note> listNodesByUser(Long userId);
+
+    void deleteNote(Long noteId);
+
     void updateNote(Note note);
+
+    boolean isDeleted(Long noteId);
 
 }

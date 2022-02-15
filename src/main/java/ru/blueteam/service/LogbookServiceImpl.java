@@ -33,8 +33,23 @@ public class LogbookServiceImpl implements LogbookService {
     }
 
     @Override
+    public List<Note> listNodesByUser(Long userId) {
+        return logbookRepository.findNotesByUser(userId);
+    }
+
+    @Override
+    public void deleteNote(Long noteId) {
+        logbookRepository.deleteNoteById(noteId);
+    }
+
+    @Override
     public void updateNote(Note note) {
         logbookRepository.updateNote(note);
+    }
+
+    @Override
+    public boolean isDeleted(Long noteId) {
+        return logbookRepository.findById(noteId) == null;
     }
 
 }
