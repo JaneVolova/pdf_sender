@@ -33,7 +33,7 @@ public class LogbookRepositoryImpl implements LogbookRepository {
     private final String SQL_FIND_NOTES_BY_USER = "select * from logbook where user_id = ?";
 
     //language=SQL
-    private final String SQL_FIND_NOTES_BY_ID = "select * from logbook where note_id = ?";
+    private final String SQL_FIND_NOTES_BY_ID = "select * from logbook where logbook_id = ?";
 
 
     public LogbookRepositoryImpl(DataSource dataSource) {
@@ -71,7 +71,7 @@ public class LogbookRepositoryImpl implements LogbookRepository {
             ResultSet generatedKeys = statement.getGeneratedKeys();
 
             if (generatedKeys.next()) {
-                note.setNoteId(generatedKeys.getLong("id"));
+                note.setNoteId(generatedKeys.getLong("logbook_id"));
             } else {
                 throw new SQLException("Can't get id");
             }

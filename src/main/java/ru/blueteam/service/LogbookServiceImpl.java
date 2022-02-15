@@ -19,7 +19,7 @@ public class LogbookServiceImpl implements LogbookService {
     public void createNote(NoteForm form) {
         Note note = Note.builder()
                 .userId(form.getUserId())
-                .date(form.getDate())
+                .date(form.getDate()) // здесь надо установить такущую дату
                 .description(form.getDescription())
                 .isDeleted(false)
                 .build();
