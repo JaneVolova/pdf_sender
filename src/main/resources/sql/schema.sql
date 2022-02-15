@@ -8,5 +8,6 @@ create table logbook (
     logbook_id serial primary key,
     user_id bigserial,
     date date,
-    description varchar(150)
+    description text,
+    is_deleted boolean
 )

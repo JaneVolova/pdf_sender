@@ -21,19 +21,19 @@ public class LogbookRepositoryImpl implements LogbookRepository {
     private final String SQL_SAVE_NOTE = "insert into logbook(user_id, description) values(?,?)";
 
     //language=SQL
-    private final String SQL_UPDATE_NOTE = "update logbook set date = ?, description = ? where note_id = ?";
+    private final String SQL_UPDATE_NOTE = "update logbook set date = ?, description = ? where note_id = ? and is_deleted = false";
 
     //language=SQL
     private final String SQL_DELETE_NOTE = "update logbook set is_deleted = true where note_id = ?";
 
     //language=SQL
-    private final String SQL_FIND_NOTES_BY_DAY = "select * from logbook where date = ?";
+    private final String SQL_FIND_NOTES_BY_DAY = "select * from logbook where date = ? and is_deleted = false"; // то что отправляем
 
     //language=SQL
-    private final String SQL_FIND_NOTES_BY_USER = "select * from logbook where user_id = ?";
+    private final String SQL_FIND_NOTES_BY_USER = "select * from logbook where user_id = ? and is_deleted = false "; // заметки одного юзера
 
     //language=SQL
-    private final String SQL_FIND_NOTES_BY_ID = "select * from logbook where logbook_id = ?";
+    private final String SQL_FIND_NOTE_BY_ID = "select * from logbook where logbook_id = ? and is_deleted = false";
 
 
     public LogbookRepositoryImpl(DataSource dataSource) {
@@ -109,6 +109,7 @@ public class LogbookRepositoryImpl implements LogbookRepository {
              PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_NOTE)) {
 
             statement.setString(1, note.getDate().toString());
+//            statement.setDate(1, note.getDate());
             statement.setString(2, note.getDescription());
             statement.setLong(3, note.getNoteId());
 
@@ -124,9 +125,9 @@ public class LogbookRepositoryImpl implements LogbookRepository {
     }
 
     @Override
-    public Note findById(Long noteId) { // может кто-то переделает на Optional<Note>?
+    public Note findById(Long noteId) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_FIND_NOTES_BY_ID)) {
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_NOTE_BY_ID)) {
             statement.setLong(1, noteId);
 
             try (ResultSet resultSet = statement.executeQuery()) {

@@ -19,7 +19,7 @@ public class UserRepositoryImpl implements UserRepository {
     private final String SQL_SAVE_USER = "insert into users(name, password) values(?,?)";
 
     //language=SQL
-    private final String SQL_FIND_ALL_USERS = "select * from users ";
+    private final String SQL_FIND_ALL_USERS = "select * from users";
 
     public UserRepositoryImpl(DataSource dataSource) {
         this.dataSource = dataSource;

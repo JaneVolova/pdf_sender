@@ -4,6 +4,7 @@ import ru.blueteam.dto.NoteForm;
 import ru.blueteam.model.Note;
 import ru.blueteam.repository.LogbookRepository;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,8 @@ public class LogbookServiceImpl implements LogbookService {
     public void createNote(NoteForm form) {
         Note note = Note.builder()
                 .userId(form.getUserId())
-                .date(form.getDate()) // здесь надо установить такущую дату
+                .date(new Date())
+//                .date(new System.currentTimeMillis()) // здесь надо установить такущую дату
                 .description(form.getDescription())
                 .isDeleted(false)
                 .build();

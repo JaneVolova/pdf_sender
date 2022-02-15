@@ -30,19 +30,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(User user) throws NoSuchAlgorithmException, InvalidKeySpecException {
 
-        SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[16];
-        random.nextBytes(salt);
-
-        KeySpec spec = new PBEKeySpec(user.getPassword().toCharArray(), salt, 65536, 128);
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("secret_key");
-
-        byte[] hash = factory.generateSecret(spec).getEncoded();
+//        SecureRandom random = new SecureRandom();
+//        byte[] salt = new byte[16];
+//        random.nextBytes(salt);
+//
+//        KeySpec spec = new PBEKeySpec(user.getPassword().toCharArray(), salt, 65536, 128);
+//        SecretKeyFactory factory = SecretKeyFactory.getInstance("secret_key");
+//
+//        byte[] hash = factory.generateSecret(spec).getEncoded();
 
         User newUser = User.builder()
                 .id(user.getId())
                 .name(user.getName())
-                .password(hash.toString())
+                .password(user.getPassword())
                 .build();
         userRepository.save(newUser);
     }
