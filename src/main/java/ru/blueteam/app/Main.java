@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import ru.blueteam.model.Note;
 import ru.blueteam.repository.LogbookRepository;
 import ru.blueteam.repository.LogbookRepositoryImpl;
+import ru.blueteam.scheduler.SendScheduler;
 
 public class Main {
     private static final String DB_USERS = "postgres";
@@ -12,6 +13,7 @@ public class Main {
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/pdfsender";
 
     public static void main(String[] args) {
+
 
         HikariConfig config = new HikariConfig();
         config.setUsername(DB_USERS);
@@ -32,5 +34,7 @@ public class Main {
         logbookRepository.save(note);
 
         System.out.println(logbookRepository.findById(1L).toString());
+
+
     }
 }
