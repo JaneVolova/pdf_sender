@@ -5,18 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
 public class Note {
 
-    private Long noteId; // нужен ли id записи, будем обращаться ли нет
+    private Integer noteId;
 
-    private Long userId;
-    private Date date;
+    private String date;
+    private String client;
     private String description;
-    private Boolean isDeleted;
 }

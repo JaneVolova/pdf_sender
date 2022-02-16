@@ -5,14 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
 public class NoteForm {
-    private Date date;
+    private String date;
+    private String client;
     private String description;
-    protected Long userId;
 }
