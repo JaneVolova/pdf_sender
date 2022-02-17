@@ -1,6 +1,12 @@
+create table students (
+    id serial primary key,
+    first_name varchar(20),
+    last_name varchar(20)
+);
+
 create table logbook (
     logbook_id serial primary key,
-    date varchar(20),
-    client varchar(20),
+    student_id serial,
+    date date,
     description varchar(150)
 )
