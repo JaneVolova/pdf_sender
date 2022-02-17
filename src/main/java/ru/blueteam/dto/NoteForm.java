@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class NoteForm {
+
+    private Integer noteId;
     private String date;
     private String client;
     private String description;

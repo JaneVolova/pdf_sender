@@ -7,6 +7,7 @@ import ru.blueteam.repository.LogbookRepository;
 import ru.blueteam.repository.LogbookRepositoryImpl;
 import ru.blueteam.service.LogbookService;
 import ru.blueteam.service.LogbookServiceImpl;
+import ru.blueteam.sheduler.SendScheduler;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -15,12 +16,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.plaf.IconUIResource;
 import java.io.IOException;
 import java.util.List;
 
 
 @WebServlet("/")
-public class CreateNoteServlet extends HttpServlet {
+public class ListNotesServlet extends HttpServlet {
 
     private HikariDataSource dataSource;
     private LogbookService logbookService;
@@ -40,7 +42,7 @@ public class CreateNoteServlet extends HttpServlet {
         System.out.println("Database has been connected.");
         LogbookRepository logbookRepository = new LogbookRepositoryImpl(dataSource);
         this.logbookService = new LogbookServiceImpl(logbookRepository);
-
+        SendScheduler.init();
     }
 
     @Override
@@ -53,30 +55,12 @@ public class CreateNoteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-
         List<Note> listNotes = logbookService.findAllNotes();
-        request.setAttribute("listUser", listNotes);
+//        System.out.println(listNotes.toString());
+        request.setAttribute("listNotes", listNotes);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/user-list.jsp");
-        dispatcher.forward(request, response); // вывод списка
-        // создать страницу редактирования записей
+        dispatcher.forward(request, response);
 
-
-
-        // обновление на другой jsp
-        String newDate = request.getParameter("date");
-        String newClient = request.getParameter("name");
-        String newDescription = request.getParameter("description");
-
-
-        Note newNote = Note.builder()
-                .date(newDate)
-                .client(newClient)
-                .description(newDescription)
-                .build();
-
-
-        logbookService.updateNote(newNote);
-        response.sendRedirect("/");
     }
 
     @Override

@@ -35,6 +35,7 @@ public class LogbookRepositoryImpl implements LogbookRepository {
     private static final Function<ResultSet, Note> noteMapper = resultSet -> {
         try {
             return Note.builder()
+                    .noteId(resultSet.getInt("logbook_id"))
                     .client(resultSet.getString("client"))
                     .date(resultSet.getString("date"))
                     .description(resultSet.getString("description"))

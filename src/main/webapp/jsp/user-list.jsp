@@ -36,7 +36,7 @@
         <table class="table table-bordered">
             <thead>
             <tr>
-<%--                <th>ID</th>--%>
+                <th>ID</th>
                 <th>Date</th>
                 <th>Name</th>
                 <th>Description</th>
@@ -46,11 +46,11 @@
             <c:forEach var="note" items="${listNotes}">
 
                 <tr>
-<%--                    <td><c:out value="${user.id}" /></td>--%>
+                    <td><c:out value="${note.noteId}" /></td>
                     <td><c:out value="${note.date}" /></td>
-                    <td><c:out value="${note.name}" /></td>
+                    <td><c:out value="${note.client}" /></td>
                     <td><c:out value="${note.description}" /></td>
-                    <td><a href="edit?id=<c:out value='${user.id}' />">Edit</a>
+                    <td><a href="update?id=<c:out value='${note.noteId}' />">Edit</a>
 <%--                         <a href="delete?id=<c:out value='${user.id}' />">Delete</a>--%>
                     </td>
                 </tr>
