@@ -7,7 +7,7 @@ import java.util.List;
 
 public class LogbookServiceImpl implements LogbookService {
 
-    private LogbookRepository logbookRepository;
+    private final LogbookRepository logbookRepository;
 
     public LogbookServiceImpl(LogbookRepository logbookRepository) {
         this.logbookRepository = logbookRepository;

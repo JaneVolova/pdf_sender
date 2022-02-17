@@ -28,9 +28,6 @@
         <h3 class="text-center">List of Notes</h3>
         <hr>
         <div class="container text-left">
-
-<%--            <a href="<%=request.getContextPath()%>/create" class="btn btn-success">Add--%>
-<%--                New User</a>--%>
         </div>
         <br>
         <table class="table table-bordered">
@@ -51,7 +48,6 @@
                     <td><c:out value="${note.client}" /></td>
                     <td><c:out value="${note.description}" /></td>
                     <td><a href="update?id=<c:out value='${note.noteId}' />">Edit</a>
-<%--                         <a href="delete?id=<c:out value='${user.id}' />">Delete</a>--%>
                     </td>
                 </tr>
             </c:forEach>

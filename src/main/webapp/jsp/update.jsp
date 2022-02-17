@@ -14,58 +14,46 @@
     <nav class="navbar navbar-expand-md navbar-dark"
          style="background-color: tomato">
 
-<%--        <ul class="navbar-nav">--%>
-<%--            <li><a href="<%=request.getContextPath()%>/list"--%>
-<%--                   class="nav-link">Users</a></li>--%>
-<%--        </ul>--%>
     </nav>
 </header>
 <br>
 <div class="container col-md-5">
     <div class="card">
         <div class="card-body">
-            <c:if test="${note != null}">
-            <form action="update" method="post">
-<%--                </c:if>--%>
-<%--                <c:if test="${user == null}">--%>
-<%--                <form action="insert" method="post">--%>
-<%--                    </c:if>--%>
+            <c:if test="${note != null}"/>
+            <form action="insert" method="post">
+                <caption>
+                    <h2>
+                        <c:if test="${note != null}">
+                            Edit Note
+                        </c:if>
+                    </h2>
+                </caption>
 
-                    <caption>
-                        <h2>
-                            <c:if test="${note != null}">
-                                Edit Note
-                            </c:if>
-<%--                            <c:if test="${user == null}">--%>
-<%--                                Add New User--%>
-<%--                            </c:if>--%>
-                        </h2>
-                    </caption>
+                <c:if test="${note != null}">
+                    <input type="hidden" name="id" value="<c:out value='${note.noteId}' />"/>
+                </c:if>
 
-                    <c:if test="${note != null}">
-                        <input type="hidden" name="id" value="<c:out value='${note.noteId}' />" />
-                    </c:if>
+                <fieldset class="form-group">
+                    <label>Date</label> <input type="date"
+                                               value="<c:out value='${note.date}' />" class="form-control"
+                                               name="date" required="required">
+                </fieldset>
 
-                    <fieldset class="form-group">
-                        <label>Date</label> <input type="date"
-                                                         value="<c:out value='${note.date}' />" class="form-control"
-                                                         name="date" required="required">
-                    </fieldset>
+                <fieldset class="form-group">
+                    <label>Name</label> <input type="text"
+                                               value="<c:out value='${note.client}' />" class="form-control"
+                                               name="client">
+                </fieldset>
 
-                    <fieldset class="form-group">
-                        <label>Name</label> <input type="text"
-                                                        value="<c:out value='${note.client}' />" class="form-control"
-                                                        name="client">
-                    </fieldset>
+                <fieldset class="form-group">
+                    <label>Description</label> <input type="text"
+                                                      value="<c:out value='${note.description}' />" class="form-control"
+                                                      name="description">
+                </fieldset>
 
-                    <fieldset class="form-group">
-                        <label>Description</label> <input type="text"
-                                                  value="<c:out value='${note.description}' />" class="form-control"
-                                                  name="description">
-                    </fieldset>
-
-                    <button type="submit" class="btn btn-success">Save</button>
-                </form>
+                <button type="submit" class="btn btn-success">Save</button>
+            </form>
         </div>
     </div>
 </div>

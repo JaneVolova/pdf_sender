@@ -24,7 +24,7 @@ public class LogbookRepositoryImpl implements LogbookRepository {
     private final String SQL_FIND_NOTES_BY_ID = "select * from logbook where logbook_id = ?";
 
     //language=SQL
-    private final String SQL_FIND_ALL_NOTES = "select * from logbook";
+    private final String SQL_FIND_ALL_NOTES = "select * from logbook order by logbook_id";
 
 
     public LogbookRepositoryImpl(DataSource dataSource) {
@@ -85,7 +85,6 @@ public class LogbookRepositoryImpl implements LogbookRepository {
         }
     }
 
-
     @Override
     public List<Note> findAllNotes() {
         List<Note> notesByUser = new ArrayList<>();
@@ -101,5 +100,4 @@ public class LogbookRepositoryImpl implements LogbookRepository {
             throw new IllegalArgumentException(e);
         }
     }
-
 }

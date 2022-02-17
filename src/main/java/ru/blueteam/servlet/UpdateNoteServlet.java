@@ -7,7 +7,6 @@ import ru.blueteam.repository.LogbookRepository;
 import ru.blueteam.repository.LogbookRepositoryImpl;
 import ru.blueteam.service.LogbookService;
 import ru.blueteam.service.LogbookServiceImpl;
-import ru.blueteam.sheduler.SendScheduler;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -25,44 +24,7 @@ public class UpdateNoteServlet extends HttpServlet {
     private LogbookService logbookService;
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
-        Integer noteId = Integer.parseInt(request.getParameter("logbook_id"));
-
-        logbookService.findById(noteId);
-
-        String newDate = request.getParameter("date");
-        String newClient = request.getParameter("name");
-        String newDescription = request.getParameter("description");
-
-
-        Note newNote = Note.builder()
-                .noteId(noteId)
-                .date(newDate)
-                .client(newClient)
-                .description(newDescription)
-                .build();
-
-
-        logbookService.updateNote(newNote);
-        response.sendRedirect("/");
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
-    }
-
-    @Override
-    public void destroy() {
-        System.out.println("Database connection in " + this.getClass().getSimpleName()
-                + " has been destroyed success.");
-        dataSource.close();
-    }
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setUsername("sender");
         hikariConfig.setPassword("strongpassword");
@@ -75,6 +37,27 @@ public class UpdateNoteServlet extends HttpServlet {
         System.out.println("Database has been connected.");
         LogbookRepository logbookRepository = new LogbookRepositoryImpl(dataSource);
         this.logbookService = new LogbookServiceImpl(logbookRepository);
-        SendScheduler.init();
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        Integer noteId = Integer.parseInt(request.getParameter("id"));
+        Note newNote = logbookService.findById(noteId);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("jsp/update.jsp");
+        request.setAttribute("note", newNote);
+        dispatcher.forward(request, response);
+
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request,response);
+    }
+
+    @Override
+    public void destroy() {
+        dataSource.close();
     }
 }

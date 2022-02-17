@@ -7,29 +7,23 @@ import ru.blueteam.repository.LogbookRepository;
 import ru.blueteam.repository.LogbookRepositoryImpl;
 import ru.blueteam.service.LogbookService;
 import ru.blueteam.service.LogbookServiceImpl;
-import ru.blueteam.sheduler.SendScheduler;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.plaf.IconUIResource;
 import java.io.IOException;
-import java.util.List;
 
-
-@WebServlet("/")
-public class ListNotesServlet extends HttpServlet {
+@WebServlet("/insert")
+public class NewNoteServlet extends HttpServlet {
 
     private HikariDataSource dataSource;
     private LogbookService logbookService;
 
     @Override
-    public void init(ServletConfig config) {
-
+    public void init(ServletConfig config) throws ServletException {
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setUsername("sender");
         hikariConfig.setPassword("strongpassword");
@@ -42,30 +36,33 @@ public class ListNotesServlet extends HttpServlet {
         System.out.println("Database has been connected.");
         LogbookRepository logbookRepository = new LogbookRepositoryImpl(dataSource);
         this.logbookService = new LogbookServiceImpl(logbookRepository);
-        SendScheduler.init();
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        doGet(request, response);
-    }
+//    @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        doGet(req,resp);
+//    }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer noteId = Integer.parseInt(request.getParameter("id"));
+        String newDate = request.getParameter("date");
+        String newClient = request.getParameter("name");
+        String newDescription = request.getParameter("description");
 
-        List<Note> listNotes = logbookService.findAllNotes();
-        request.setAttribute("listNotes", listNotes);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/user-list.jsp");
-        dispatcher.forward(request, response);
+        Note newNote = Note.builder()
+                .noteId(noteId)
+                .date(newDate)
+                .client(newClient)
+                .description(newDescription)
+                .build();
 
+        logbookService.updateNote(newNote);
+        response.sendRedirect("/");
     }
 
     @Override
     public void destroy() {
-        System.out.println("Database connection in " + this.getClass().getSimpleName()
-                + " has been destroyed success.");
         dataSource.close();
     }
 }
