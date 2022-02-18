@@ -17,7 +17,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @WebServlet("/")
@@ -25,6 +27,8 @@ public class ListNotesServlet extends HttpServlet {
 
     private HikariDataSource dataSource;
     private LogbookService logbookService;
+
+    private Map<String,Command> actionMap = new HashMap<>();
 
     @Override
     public void init(ServletConfig config) {
@@ -42,22 +46,105 @@ public class ListNotesServlet extends HttpServlet {
         LogbookRepository logbookRepository = new LogbookRepositoryImpl(dataSource);
         this.logbookService = new LogbookServiceImpl(logbookRepository);
         SendScheduler.init();
+
+        actionMap.put("showAllNotesByDay", new ShowAllNotesByDay());
+        actionMap.put("showAllNotesByStudent", new ShowAllNotesByStudent());
+        actionMap.put("updateNote", new UpdateNote());
+        actionMap.put("showNotesById", new ShowNotesById());
+        actionMap.put("createNote", new CreateNote());
+        actionMap.put("deleteNote", new DeleteNote());
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        doGet(request, response);
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        String actionKey = request.getParameter("action");
+//        Action action = actionMap.get(actionKey);
+//        String view = action.execute(request, response);
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    interface Command {
+        void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+    }
 
-        List<Note> listNotes = logbookService.findAllNotesByDay();
-        request.setAttribute("listNotes", listNotes);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/user-list.jsp");
-        dispatcher.forward(request, response);
+    class Action {
+        void showAllNotesByDay(HttpServletRequest request, HttpServletResponse response) {
+
+        }
+
+        void showAllNotesByStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            List<Note> listNotes = logbookService.findAllNotesByDay();
+            request.setAttribute("listNotes", listNotes);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/user-list.jsp");
+            dispatcher.forward(request, response);
+        }
+
+        void showNotesById(HttpServletRequest request, HttpServletResponse response) {
+
+        }
+
+        void updateNote(HttpServletRequest request, HttpServletResponse response) {
+
+        }
+
+        void createNote(HttpServletRequest request, HttpServletResponse response) {
+
+        }
+
+        void deleteNote(HttpServletRequest request, HttpServletResponse response) {
+
+        }
+    }
+
+    class ShowAllNotesByDay implements Command {
+        private Action action;
+
+        @Override
+        public void execute(HttpServletRequest request, HttpServletResponse response) {
+            action.showAllNotesByDay(request, response);
+        }
+    }
+     class ShowAllNotesByStudent implements Command{
+         private Action action;
+         @Override
+         public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+             action.showAllNotesByStudent(request,response);
+         }
+     }
+
+    class ShowNotesById implements Command {
+        private  Action action;
+
+        @Override
+        public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            action.showNotesById(request,response);
+        }
+    }
+
+    class UpdateNote implements Command {
+        private  Action action;
+
+        @Override
+        public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            action.updateNote(request,response);
+        }
+    }
+
+    class CreateNote implements Command {
+        private  Action action;
+
+        @Override
+        public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            action.createNote(request,response);
+        }
+    }
+
+    class DeleteNote implements Command {
+        private  Action action;
+
+        @Override
+        public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            action.deleteNote(request,response);
+        }
     }
 
     @Override
@@ -66,4 +153,5 @@ public class ListNotesServlet extends HttpServlet {
                 + " has been destroyed success.");
         dataSource.close();
     }
+
 }
