@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,10 +13,9 @@ import java.util.Date;
 @Data
 public class Note {
 
-    private Long noteId; // нужен ли id записи, будем обращаться ли нет
+    private Integer noteId;
 
-    private Long userId;
-    private Date date;
+    private Integer studentId;
+    private LocalDate date;
     private String description;
-    private Boolean isDeleted;
 }
