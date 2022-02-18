@@ -15,7 +15,7 @@ public class Note {
 
     private Integer noteId;
 
-    private Integer student_id;
+    private Integer studentId;
     private LocalDate date;
     private String description;
 }

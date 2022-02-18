@@ -3,6 +3,7 @@ package ru.blueteam.service;
 import ru.blueteam.model.Note;
 import ru.blueteam.repository.LogbookRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class LogbookServiceImpl implements LogbookService {
@@ -20,11 +21,12 @@ public class LogbookServiceImpl implements LogbookService {
 
     @Override
     public Note findById(Integer noteId) {
-        return logbookRepository.findById(noteId);
+        return logbookRepository.findNoteById(noteId);
     }
 
     @Override
-    public List<Note> findAllNotes() {
-        return logbookRepository.findAllNotes();
+    public List<Note> findAllNotesByDay() {
+        LocalDate date = LocalDate.now();
+        return logbookRepository.findAllNotesByDay(date);
     }
 }

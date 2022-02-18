@@ -2,13 +2,19 @@ package ru.blueteam.repository;
 
 import ru.blueteam.model.Note;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface LogbookRepository {
+    List<Note> findAllNotesByDay(LocalDate date);
+
+    List<Note> findAllNotesByStudent(Integer studentId);
+
+    Note findNoteById(Integer noteId);
 
     void updateNote(Note note);
 
-    Note findById(Integer note_id);
+    void deleteNote(Integer noteId);
 
-    List<Note> findAllNotes();
+    void createNote(Note note);
 }

@@ -10,6 +10,6 @@ public interface LogbookService {
 
     Note findById(Integer noteId);
 
-    List<Note> findAllNotes();
+    List<Note> findAllNotesByDay();
 
 }
