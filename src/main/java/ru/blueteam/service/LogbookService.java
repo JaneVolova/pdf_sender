@@ -12,4 +12,8 @@ public interface LogbookService {
 
     List<Note> findAllNotesByDay();
 
+    void deleteNote(Integer noteId);
+
+    void createNote(Note note);
+
 }

@@ -104,7 +104,9 @@ public class LogbookRepositoryImpl implements LogbookRepository {
     //  private final String SQL_UPDATE_NOTE = "update logbook set student_id = ?, description = ? where logbook_id = ?";
     @Override
     public void updateNote(Note note) {
+
         try (Connection connection = dataSource.getConnection();
+
              PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_NOTE)) {
 
             statement.setInt(1, note.getStudentId());

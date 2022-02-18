@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+         pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Notes Management Application</title>
@@ -13,12 +13,12 @@
 
 <header>
     <nav class="navbar navbar-expand-md navbar-dark"
-         style="background-color: tomato">
+    <%--         style="background-color: tomato">--%>
 
-        <ul class="navbar-nav">
-            <li><a href="<%=request.getContextPath()%>/list"
-                   class="nav-link">Notes</a></li>
-        </ul>
+    <ul class="navbar-nav">
+        <li><a href="<%=request.getContextPath()%>/list"
+               class="nav-link">Notes</a></li>
+    </ul>
     </nav>
 </header>
 <br>
@@ -40,14 +40,15 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="note" items="${listNotes}">
+            <c:forEach var="note" items="${listNotesByDay}">
 
                 <tr>
-                    <td><c:out value="${note.noteId}" /></td>
-                    <td><c:out value="${note.date}" /></td>
-                    <td><c:out value="${note.client}" /></td>
-                    <td><c:out value="${note.description}" /></td>
-                    <td><a href="update?id=<c:out value='${note.noteId}' />">Edit</a>
+                    <td><c:out value="${note.noteId}"/></td>
+                    <td><c:out value="${note.date}"/></td>
+                    <td><a href="showAllNotesByStudent?id=<c:out value='${note.noteId}' />"> <c:out value="${note.client}"/></a></td>
+                    <td><c:out value="${note.description}"/></td>
+                    <td><a href="showNotesById?id=<c:out value='${note.noteId}' />">Edit</a></td>
+                    <td><a href="deleteNote?id=<c:out value='${note.noteId}' />">Delete</a></td>
                     </td>
                 </tr>
             </c:forEach>

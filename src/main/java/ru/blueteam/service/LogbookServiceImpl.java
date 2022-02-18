@@ -29,4 +29,14 @@ public class LogbookServiceImpl implements LogbookService {
         LocalDate date = LocalDate.now();
         return logbookRepository.findAllNotesByDay(date);
     }
+
+    @Override
+    public void deleteNote(Integer noteId) {
+        logbookRepository.deleteNote(noteId);
+    }
+
+    @Override
+    public void createNote(Note note) {
+        logbookRepository.createNote(note);
+    }
 }
