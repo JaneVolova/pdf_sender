@@ -3,9 +3,11 @@ package ru.blueteam.command;
 import javax.servlet.http.HttpServletRequest;
 
 public class ShowNotesById implements Command {
-
     @Override
-    public void execute(HttpServletRequest request) {
+     public Dashboard execute(HttpServletRequest request) {
 
+            Dashboard resultPage = null;
+
+            return resultPage;
     }
 }

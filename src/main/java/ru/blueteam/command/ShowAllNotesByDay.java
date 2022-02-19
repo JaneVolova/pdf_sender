@@ -4,24 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.blueteam.model.Note;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Data
 public class ShowAllNotesByDay implements Command {
-    Dashboard dashboard;
-
-//    public ShowAllNotesByDay (Dashboard dashboard) {
-//        this.dashboard = dashboard;
-//    }
-
-
-
     @Override
-    public void execute(HttpServletRequest request) {
-        dashboard.delete();
+    public Dashboard execute(HttpServletRequest request) {
+        Dashboard resultPage = null;
+        return resultPage;
     }
 }

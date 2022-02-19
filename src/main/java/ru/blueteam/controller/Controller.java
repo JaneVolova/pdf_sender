@@ -46,7 +46,7 @@ public class Controller extends HttpServlet {
         System.out.println("Database connection inits success");
         dataSource = new HikariDataSource(hikariConfig);
 
-        //System.out.println("Database has been connected.");
+        System.out.println("Database has been connected.");
         LogbookRepository logbookRepository = new LogbookRepositoryImpl(dataSource);
         this.logbookService = new LogbookServiceImpl(logbookRepository);
 
@@ -54,19 +54,44 @@ public class Controller extends HttpServlet {
 
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException {
 
-        this.doGet(request, response);
+        process(request, response);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException {
+        process(request, response);
+    }
 
-        String action = request.getServletPath();
-
-//        private void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void process(HttpServletRequest request, HttpServletResponse response) throws
+            IOException, ServletException {
         DashboardLoader dashboardLoader = new DashboardLoader();
         Command command = dashboardLoader.defineCommand(request);
-        command.execute(request);
+        Dashboard page = command.execute(request);
+        boolean isRedirect = page.isRedirect();
+        if (isRedirect) {
+            redirect(page, request, response);
+        } else {
+            forward(page, request, response);
+        }
+    }
+
+    private void redirect(Dashboard page, HttpServletRequest request, HttpServletResponse response) throws
+            IOException, ServletException {
+        String redirectUrl = page.getUrlDashboard();
+        response.sendRedirect(redirectUrl);
+    }
+
+    private void forward(Dashboard page, HttpServletRequest request, HttpServletResponse response) throws
+            IOException, ServletException {
+        String url = page.getUrlDashboard();
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp"+url);
+        requestDispatcher.forward(request, response);
+
+        // RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/user-list.jsp");
+        //dispatcher.forward(request, response);
     }
 
     @Override

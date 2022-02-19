@@ -31,6 +31,5 @@ public class Dashboard {
         this.isRedirect = isRedirect;
     }
 
-    public void delete() {
-    }
+
 }
