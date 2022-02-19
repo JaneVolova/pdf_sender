@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+         pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <link rel="stylesheet"
@@ -22,44 +22,47 @@
         <div class="card-body">
             <c:if test="${note != null}">
             <form action="updateNote" method="post">
-                </c:if>
-                <c:if test="${note == null}">
-                <form action="createNote" method="post">
-                    </c:if>
-                        <caption>
-                            <h2>
-                                <c:if test="${note != null}">
-                                    Edit Note
-                                </c:if>
-                                <c:if test="${note == null}">
-                                    Add New Note
-                                </c:if>
-                            </h2>
-                        </caption>
+                    <%--                </c:if>--%>
+                    <%--                <c:if test="${note == null}">--%>
+                    <%--                <form action="createNote" method="post">--%>
+                    <%--                    </c:if>--%>
+                <caption>
+                    <h2>
+                        <c:if test="${note != null}">
+                            Edit Note
+                        </c:if>
+                            <%--                            <c:if test="${note == null}">--%>
+                            <%--                                Add New Note--%>
+                            <%--                            </c:if>--%>
+                    </h2>
+                </caption>
 
                 <c:if test="${note != null}">
                     <input type="hidden" name="id" value="<c:out value='${note.noteId}' />"/>
+                                        <input type="text" name="studentId" value="<c:out value='${note.studentId}' />"/>
                 </c:if>
+<%--                <fieldset class="form-group">--%>
+<%--                    <label>Name</label> <input type="text" readonly--%>
+<%--                                               value="<c:out value='${note.studentId}' />" class="form-control"--%>
+<%--                                               name="client">--%>
+<%--                </fieldset>--%>
 
-                <fieldset class="form-group">
+                <fieldset class=" form-group">
                     <label>Date</label> <input type="date"
                                                value="<c:out value='${note.date}' />" class="form-control"
                                                name="date" required="required">
                 </fieldset>
 
-                <fieldset class="form-group">
-                    <label>Name</label> <input type="text"
-                                               value="<c:out value='${note.client}' />" class="form-control"
-                                               name="client">
-                </fieldset>
 
                 <fieldset class="form-group">
                     <label>Description</label> <input type="text"
-                                                      value="<c:out value='${note.description}' />" class="form-control"
+                                                      value="<c:out value='${note.description}' />"
+                                                      class="form-control"
                                                       name="description">
                 </fieldset>
 
                 <button type="submit" class="btn btn-success">Save</button>
+
             </form>
         </div>
     </div>
