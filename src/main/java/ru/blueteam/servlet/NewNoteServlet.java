@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 
 @WebServlet("/insert")
 public class NewNoteServlet extends HttpServlet {
@@ -46,14 +47,14 @@ public class NewNoteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer noteId = Integer.parseInt(request.getParameter("id"));
-        String newDate = request.getParameter("date");
-        String newClient = request.getParameter("name");
+        Integer newClient = Integer.parseInt(request.getParameter("studentId"));
+        LocalDate newDate = LocalDate.parse(request.getParameter("date"));
         String newDescription = request.getParameter("description");
 
         Note newNote = Note.builder()
                 .noteId(noteId)
                 .date(newDate)
-                .client(newClient)
+                .studentId(newClient)
                 .description(newDescription)
                 .build();
 
