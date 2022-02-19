@@ -1,5 +1,6 @@
 package ru.blueteam.repository;
 
+import ru.blueteam.dto.NoteDto;
 import ru.blueteam.model.Note;
 
 import java.time.LocalDate;
@@ -16,5 +17,5 @@ public interface LogbookRepository {
 
     void deleteNote(Integer noteId);
 
-    void createNote(Note note);
+    void createNote(NoteDto noteDto);
 }

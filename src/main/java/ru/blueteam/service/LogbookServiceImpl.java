@@ -1,5 +1,6 @@
 package ru.blueteam.service;
 
+import ru.blueteam.dto.NoteDto;
 import ru.blueteam.model.Note;
 import ru.blueteam.repository.LogbookRepository;
 
@@ -36,7 +37,12 @@ public class LogbookServiceImpl implements LogbookService {
     }
 
     @Override
-    public void createNote(Note note) {
-        logbookRepository.createNote(note);
+    public void createNote(NoteDto noteDto) {
+        logbookRepository.createNote(noteDto);
+    }
+
+    @Override
+    public List<Note> findAllNotesByStudent(Integer studentId) {
+        return logbookRepository.findAllNotesByStudent(studentId);
     }
 }

@@ -22,10 +22,10 @@
         <div class="card-body">
             <c:if test="${note != null}">
             <form action="updateNote" method="post">
-                    <%--                </c:if>--%>
-                    <%--                <c:if test="${note == null}">--%>
-                    <%--                <form action="createNote" method="post">--%>
-                    <%--                    </c:if>--%>
+                                    </c:if>
+<%--                                    <c:if test="${note == null}">--%>
+<%--                                    <form action="createNote" method="post">--%>
+<%--                                        </c:if>--%>
                 <caption>
                     <h2>
                         <c:if test="${note != null}">
@@ -38,8 +38,8 @@
                 </caption>
 
                 <c:if test="${note != null}">
-                    <input type="hidden" name="id" value="<c:out value='${note.noteId}' />"/>
-                                        <input type="text" name="studentId" value="<c:out value='${note.studentId}' />"/>
+                    <input type="hidden" name="noteId" value="<c:out value='${note.noteId}' />"/>
+                    <input type="hidden" name="studentId" value="<c:out value='${note.studentId}'/>"/>
                 </c:if>
 <%--                <fieldset class="form-group">--%>
 <%--                    <label>Name</label> <input type="text" readonly--%>

@@ -2,14 +2,13 @@ package ru.blueteam.servlet;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import ru.blueteam.model.Note;
+import ru.blueteam.command.*;
 import ru.blueteam.repository.LogbookRepository;
 import ru.blueteam.repository.LogbookRepositoryImpl;
 import ru.blueteam.service.LogbookService;
 import ru.blueteam.service.LogbookServiceImpl;
 import ru.blueteam.sheduler.SendScheduler;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,19 +16,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
 @WebServlet("/")
 public class ListNotesServlet extends HttpServlet {
 
-    private HikariDataSource dataSource;
-    private LogbookService logbookService;
+    private  HikariDataSource dataSource;
+    private  LogbookService logbookService;
 
-    private Map<String, Command> actionMap = new HashMap<>();
+
+    private static Map<String, Command> actionMap = new HashMap<>();
 
     @Override
     public void init(ServletConfig config) {
@@ -48,12 +46,13 @@ public class ListNotesServlet extends HttpServlet {
         this.logbookService = new LogbookServiceImpl(logbookRepository);
         SendScheduler.init();
 
-        actionMap.put("showAllNotesByDay", new ShowAllNotesByDay());
-        actionMap.put("showAllNotesByStudent", new ShowAllNotesByStudent());
-        actionMap.put("updateNote", new UpdateNote());
-        actionMap.put("showNotesById", new ShowNotesById());
-        actionMap.put("createNote", new CreateNote());
-        actionMap.put("deleteNote", new DeleteNote());
+        actionMap.put("showAllNotesByDay", new ShowAllNotesByDay(logbookService));
+        actionMap.put("showAllNotesByStudent", new ShowAllNotesByStudent(logbookService));
+        actionMap.put("updateNote", new UpdateNote(logbookService));
+        actionMap.put("showNotesById", new ShowNotesById(logbookService));
+        actionMap.put("createNote", new CreateNote(logbookService));
+        actionMap.put("deleteNote", new DeleteNote(logbookService));
+
     }
 
     @Override
@@ -63,110 +62,6 @@ public class ListNotesServlet extends HttpServlet {
         action.execute(request, response);
     }
 
-    interface Command {
-        void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
-    }
-
-    class Action {
-        void showAllNotesByDay(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            List<Note> listNotesByDay = logbookService.findAllNotesByDay();
-            request.setAttribute("listNotesByDay", listNotesByDay);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/user-list.jsp");
-            dispatcher.forward(request, response);
-        }
-
-        void showAllNotesByStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            List<Note> listNotes = logbookService.findAllNotesByDay();
-            request.setAttribute("listNotes", listNotes);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/user-list.jsp");
-            dispatcher.forward(request, response);
-        }
-
-        void showNotesById(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            Note note  = logbookService.findById(Integer.parseInt(request.getParameter("id")));
-            request.setAttribute("note", note);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/update.jsp");
-            dispatcher.forward(request, response);
-        }
-
-        void updateNote(HttpServletRequest request, HttpServletResponse response) throws IOException {
-            Integer studentId = Integer.parseInt(request.getParameter("studentId"));
-            Integer noteId = Integer.parseInt(request.getParameter("id"));
-            LocalDate date = LocalDate.parse(request.getParameter("date"));
-            String description = request.getParameter("description");
-
-            Note newNote = new Note(noteId, studentId, date, description);
-            logbookService.updateNote(newNote);
-
-            response.sendRedirect("/");
-        }
-
-        void createNote(HttpServletRequest request, HttpServletResponse response) throws IOException {
-            Integer studentId = Integer.parseInt(request.getParameter("studentId"));
-            Integer noteId = Integer.parseInt(request.getParameter("id"));
-            LocalDate date = LocalDate.parse(request.getParameter("date"));
-            String description = request.getParameter("description");
-
-            Note newNote = new Note(noteId, studentId, date, description);
-            logbookService.createNote(newNote);
-
-            response.sendRedirect("/");
-        }
-
-        void deleteNote(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            logbookService.deleteNote(Integer.parseInt(request.getParameter("id")));
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/user-list.jsp");
-            dispatcher.forward(request, response);
-        }
-    }
-
-    class ShowAllNotesByDay implements Command {
-        private Action action;
-        @Override
-        public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            action.showAllNotesByDay(request, response);
-        }
-    }
-
-    class ShowAllNotesByStudent implements Command {
-        private Action action;
-        @Override
-        public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            action.showAllNotesByStudent(request, response);
-        }
-    }
-
-    class ShowNotesById implements Command {
-        private Action action;
-        @Override
-        public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            action.showNotesById(request, response);
-        }
-    }
-
-    class UpdateNote implements Command {
-        private Action action;
-        @Override
-        public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            action.updateNote(request, response);
-        }
-    }
-
-    class CreateNote implements Command {
-        private Action action;
-        @Override
-        public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            action.createNote(request, response);
-        }
-    }
-
-    class DeleteNote implements Command {
-        private Action action;
-        @Override
-        public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            action.deleteNote(request, response);
-        }
-    }
 
     @Override
     public void destroy() {
@@ -174,5 +69,4 @@ public class ListNotesServlet extends HttpServlet {
                 + " has been destroyed success.");
         dataSource.close();
     }
-
 }

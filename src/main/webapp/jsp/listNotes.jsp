@@ -45,10 +45,10 @@
                 <tr>
                     <td><c:out value="${note.noteId}"/></td>
                     <td><c:out value="${note.date}"/></td>
-                    <td><a href="showAllNotesByStudent?id=<c:out value='${note.noteId}' />"> <c:out value="${note.client}"/></a></td>
+                    <td><a href="showAllNotesByStudent?studentId=<c:out value='${note.studentId}' />"> <c:out value="${note.studentId}"/></a></td>
                     <td><c:out value="${note.description}"/></td>
-                    <td><a href="showNotesById?id=<c:out value='${note.noteId}' />">Edit</a></td>
-                    <td><a href="deleteNote?id=<c:out value='${note.noteId}' />">Delete</a></td>
+                    <td><a href="showNotesById?noteId=<c:out value='${note.noteId}' />">Edit</a></td>
+                    <td><a href="deleteNote?noteId=<c:out value='${note.noteId}' />">Delete</a></td>
                     </td>
                 </tr>
             </c:forEach>

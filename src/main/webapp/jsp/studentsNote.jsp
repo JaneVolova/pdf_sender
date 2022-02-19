@@ -29,7 +29,7 @@
         <hr>
         <div class="container text-left">
 
-            <a href="<%=request.getContextPath()%>/create" class="btn btn-success">Add
+            <a href="<%=request.getContextPath()%>/createNote" class="btn btn-success">Add
                 New Note</a>
         </div>
         <br>

@@ -1,5 +1,6 @@
 package ru.blueteam.repository;
 
+import ru.blueteam.dto.NoteDto;
 import ru.blueteam.model.Note;
 import ru.blueteam.service.LogbookService;
 import ru.blueteam.service.LogbookServiceImpl;
@@ -62,6 +63,7 @@ public class LogbookRepositoryImpl implements LogbookRepository {
         }
     }
 
+
     // private final String SQL_FIND_ALL_NOTES_BY_STUDENT = "select * from logbook where student_id = ?";
     public List<Note> findAllNotesByStudent(Integer studentId) {
         List<Note> notesByUser = new ArrayList<>();
@@ -104,9 +106,7 @@ public class LogbookRepositoryImpl implements LogbookRepository {
     //  private final String SQL_UPDATE_NOTE = "update logbook set student_id = ?, description = ? where logbook_id = ?";
     @Override
     public void updateNote(Note note) {
-
         try (Connection connection = dataSource.getConnection();
-
              PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_NOTE)) {
 
             statement.setInt(1, note.getStudentId());
@@ -142,12 +142,12 @@ public class LogbookRepositoryImpl implements LogbookRepository {
     }
 
     @Override
-    public void createNote(Note note) {
+    public void createNote(NoteDto noteDto) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_CREATE_NOTE, Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setInt(1, note.getStudentId());
-            statement.setString(2, note.getDescription());
+            statement.setInt(1, noteDto.getStudentId());
+            statement.setString(2, noteDto.getDescription());
 
             int affectedRows = statement.executeUpdate();
 
@@ -155,16 +155,18 @@ public class LogbookRepositoryImpl implements LogbookRepository {
                 throw new SQLException("Can't create note");
             }
 
-            ResultSet generatedKeys = statement.getGeneratedKeys();
-
-            if (generatedKeys.next()) {
-                note.setNoteId(generatedKeys.getInt("id"));
-            } else {
-                throw new SQLException("Can't get id");
-            }
+//            ResultSet generatedKeys = statement.getGeneratedKeys();
+//
+//            if (generatedKeys.next()) {
+//                note.setNoteId(generatedKeys.getInt("id"));
+//            } else {
+//                throw new SQLException("Can't get id");
+//            }
 
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
         }
     }
+
+
 }

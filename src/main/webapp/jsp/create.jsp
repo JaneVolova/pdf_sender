@@ -20,49 +20,49 @@
 <div class="container col-md-5">
     <div class="card">
         <div class="card-body">
-            <%--            <c:if test="${note != null}">--%>
-            <%--            <form action="updateNote" method="post">--%>
-            <%--                </c:if>--%>
-            <c:if test="${note == null}">
+            <c:if test="${note != null}">
             <form action="createNote" method="post">
                 </c:if>
+                <%--                                    <c:if test="${note == null}">--%>
+                <%--                                    <form action="createNote" method="post">--%>
+                <%--                                        </c:if>--%>
                 <caption>
                     <h2>
-                        <%--                            <c:if test="${note != null}">--%>
-                        <%--                                Edit Note--%>
-                        <%--                            </c:if>--%>
-                        <c:if test="${note == null}">
-                            Add New Note
+                        <c:if test="${note != null}">
+                            Create Note
                         </c:if>
+                        <%--                            <c:if test="${note == null}">--%>
+                        <%--                                Add New Note--%>
+                        <%--                            </c:if>--%>
                     </h2>
                 </caption>
 
                 <c:if test="${note != null}">
-                    <input type="hidden" name="id" value="<c:out value='${note.noteId}' />"/>
-                    <%--                        <input type="text" name="client" value="<c:out value='${note.client}' />"/>--%>
+<%--                    <input type="hidden" name="noteId" value="<c:out value='${note.noteId}' />"/>--%>
+                    <input type="hidden" name="studentId" value="<c:out value='${note.studentId}'/>"/>
                 </c:if>
-
-                </fieldset>
-
-                <fieldset class="form-group">
-                    <label>Name</label> <input type="text"
-                                               value="<c:out value='${note.studentId}' />" class="form-control"
-                                               name="studentId">
-                </fieldset>
+                <%--                <fieldset class="form-group">--%>
+                <%--                    <label>Name</label> <input type="text" readonly--%>
+                <%--                                               value="<c:out value='${note.studentId}' />" class="form-control"--%>
+                <%--                                               name="client">--%>
+                <%--                </fieldset>--%>
 
                 <fieldset class=" form-group">
                     <label>Date</label> <input type="date"
                                                value="<c:out value='${note.date}' />" class="form-control"
                                                name="date" required="required">
+                </fieldset>
 
-                    <fieldset class="form-group">
-                        <label>Description</label> <input type="text"
-                                                          value="<c:out value='${note.description}' />"
-                                                          class="form-control"
-                                                          name="description">
-                    </fieldset>
 
-                    <button type="submit" class="btn btn-success">Save</button>
+                <fieldset class="form-group">
+                    <label>Description</label> <input type="text"
+                                                      value="<c:out value='${note.description}' />"
+                                                      class="form-control"
+                                                      name="description">
+                </fieldset>
+
+                <button type="submit" class="btn btn-success">Save</button>
+
             </form>
         </div>
     </div>
