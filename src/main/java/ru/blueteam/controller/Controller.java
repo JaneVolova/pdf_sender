@@ -59,15 +59,15 @@ public class Controller extends HttpServlet {
         this.doGet(request, response);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
         String action = request.getServletPath();
 
-        private void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-            DashboardLoader dashboardLoader = new DashboardLoader();
-            Command command = dashboardLoader.defineCommand(HttpServletRequest);
-            Dashboard dashboardLoader = command.execute(HttpServletRequest);
-        }
+//        private void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        DashboardLoader dashboardLoader = new DashboardLoader();
+        Command command = dashboardLoader.defineCommand(request);
+        command.execute(request);
+    }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

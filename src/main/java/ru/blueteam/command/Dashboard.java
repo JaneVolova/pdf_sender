@@ -30,4 +30,7 @@ public class Dashboard {
     public void setRedirect(boolean isRedirect) {
         this.isRedirect = isRedirect;
     }
+
+    public void delete() {
+    }
 }

@@ -5,7 +5,9 @@ import java.util.HashMap;
 
 public class DashboardLoader {
 
-    private static DashboardLoader instance = null;
+    private DashboardLoader instance = null;
+    private Dashboard dashboard;
+
     HashMap<String, Command> action = new HashMap<>();
 
 
@@ -19,7 +21,7 @@ public class DashboardLoader {
         action.put("deleteNote", new DeleteNote());
     }
 
-    public static DashboardLoader setCommand(Command command) {
+    public DashboardLoader setCommand(Command command) {
         if (instance == null) {
             instance = new DashboardLoader();
         }
