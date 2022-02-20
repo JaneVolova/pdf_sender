@@ -2,9 +2,7 @@ package ru.blueteam.app;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import ru.blueteam.model.Note;
-import ru.blueteam.repository.LogbookRepository;
-import ru.blueteam.repository.LogbookRepositoryImpl;
+import ru.blueteam.sheduler.SendScheduler;
 
 public class Main {
     private static final String DB_USERS = "sender";
@@ -22,7 +20,8 @@ public class Main {
 
         HikariDataSource dataSource = new HikariDataSource(config);
 
-        LogbookRepository logbookRepository = new LogbookRepositoryImpl(dataSource);
+//        LogbookRepository logbookRepository = new LogbookRepositoryImpl(dataSource);
 
+        SendScheduler.init();
     }
 }

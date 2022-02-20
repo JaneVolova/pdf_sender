@@ -1,21 +1,34 @@
 package ru.blueteam.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import ru.blueteam.dto.NoteDto;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 public class Note {
 
     private Integer noteId;
 
-    private Integer studentId;
+    private String fio;
     private LocalDate date;
     private String description;
+
+    public static Note from(NoteDto noteDto) {
+        return Note.builder()
+                .fio(noteDto.getFio())
+                .date(noteDto.getDate())
+                .description(noteDto.getDescription())
+                .build();
+    }
+
+    public static List<Note> from(List<NoteDto> noteDtos) {
+        return noteDtos.stream().map(Note::from).collect(Collectors.toList());
+    }
 }
