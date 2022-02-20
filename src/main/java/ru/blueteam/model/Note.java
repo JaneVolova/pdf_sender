@@ -16,13 +16,13 @@ public class Note {
 
     private Integer noteId;
 
-    private Integer studentId;
+    private String fio;
     private LocalDate date;
     private String description;
 
     public static Note from(NoteDto noteDto) {
         return Note.builder()
-                .studentId(noteDto.getStudentId())
+                .fio(noteDto.getFio())
                 .date(noteDto.getDate())
                 .description(noteDto.getDescription())
                 .build();

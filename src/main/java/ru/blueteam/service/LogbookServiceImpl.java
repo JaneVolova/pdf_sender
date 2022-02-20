@@ -42,7 +42,12 @@ public class LogbookServiceImpl implements LogbookService {
     }
 
     @Override
-    public List<Note> findAllNotesByStudent(Integer studentId) {
-        return logbookRepository.findAllNotesByStudent(studentId);
+    public List<Note> findAllNotesByStudent(String fio) {
+        return logbookRepository.findAllNotesByStudent(fio);
+    }
+
+    @Override
+    public List<String> listName() {
+        return logbookRepository.listFio();
     }
 }

@@ -3,12 +3,15 @@ package ru.blueteam.servlet;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import ru.blueteam.command.*;
+import ru.blueteam.model.Student;
 import ru.blueteam.repository.LogbookRepository;
 import ru.blueteam.repository.LogbookRepositoryImpl;
 import ru.blueteam.service.LogbookService;
 import ru.blueteam.service.LogbookServiceImpl;
+import ru.blueteam.service.StudentService;
 import ru.blueteam.sheduler.SendScheduler;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,14 +20,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 @WebServlet("/")
 public class ListNotesServlet extends HttpServlet {
 
-    private  HikariDataSource dataSource;
-    private  LogbookService logbookService;
+    private HikariDataSource dataSource;
+    private LogbookService logbookService;
+    private StudentService studentService;
 
 
     private static Map<String, Command> actionMap = new HashMap<>();
@@ -46,6 +51,7 @@ public class ListNotesServlet extends HttpServlet {
         this.logbookService = new LogbookServiceImpl(logbookRepository);
         SendScheduler.init();
 
+//        actionMap.put(null, new ShowAllNotesByDay(logbookService));
         actionMap.put("showAllNotesByDay", new ShowAllNotesByDay(logbookService));
         actionMap.put("showAllNotesByStudent", new ShowAllNotesByStudent(logbookService));
         actionMap.put("updateNote", new UpdateNote(logbookService));
@@ -57,9 +63,15 @@ public class ListNotesServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String actionKey = request.getParameter("action");
         Command action = actionMap.get(actionKey);
         action.execute(request, response);
+
+        List<String> stringList = logbookService.listName();
+        request.setAttribute("stringList" ,stringList);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/create.jsp");
+        dispatcher.forward(request, response);
     }
 
 

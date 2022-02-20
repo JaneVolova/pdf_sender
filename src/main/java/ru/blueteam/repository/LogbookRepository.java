@@ -9,7 +9,7 @@ import java.util.List;
 public interface LogbookRepository {
     List<Note> findAllNotesByDay(LocalDate date);
 
-    List<Note> findAllNotesByStudent(Integer studentId);
+    List<Note> findAllNotesByStudent(String fio);
 
     Note findNoteById(Integer noteId);
 
@@ -18,4 +18,6 @@ public interface LogbookRepository {
     void deleteNote(Integer noteId);
 
     void createNote(NoteDto noteDto);
+
+    List<String> listFio();
 }

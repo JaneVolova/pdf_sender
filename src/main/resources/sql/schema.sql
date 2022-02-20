@@ -6,7 +6,7 @@ create table students (
 
 create table logbook (
     logbook_id serial primary key,
-    student_id serial,
+    fio varchar(25),
     date date,
     description varchar(150)
 )

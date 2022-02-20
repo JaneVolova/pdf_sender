@@ -31,7 +31,7 @@ public class Action {
     }
 
     void showAllNotesByStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Note> listNotes = logbookService.findAllNotesByStudent(Integer.parseInt(request.getParameter("studentId")));
+        List<Note> listNotes = logbookService.findAllNotesByStudent(request.getParameter("fio"));
         request.setAttribute("listNotes", listNotes);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/studentsNote.jsp");
         dispatcher.forward(request, response);
@@ -45,24 +45,24 @@ public class Action {
     }
 
     void updateNote(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Integer studentId = Integer.parseInt(request.getParameter("studentId"));
+        String fio = request.getParameter("fio");
         Integer noteId = Integer.parseInt(request.getParameter("noteId"));
         LocalDate date = LocalDate.parse(request.getParameter("date"));
         String description = request.getParameter("description");
 
-        Note newNote = new Note(noteId, studentId, date, description);
+        Note newNote = new Note(noteId, fio, date, description);
         logbookService.updateNote(newNote);
 
         response.sendRedirect("/");
     }
 
     void createNote(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Integer studentId = Integer.parseInt(request.getParameter("studentId"));
+        String fio = request.getParameter("fio");
 //        LocalDate date = LocalDate.parse(request.getParameter("date"));
         String description = request.getParameter("description");
 
         NoteDto newNote = NoteDto.builder()
-                .studentId(studentId)
+                .fio(fio)
                 .date(LocalDate.now())
                 .description(description)
                 .build();

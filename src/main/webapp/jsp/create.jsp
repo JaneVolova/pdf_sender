@@ -20,7 +20,7 @@
 <div class="container col-md-5">
     <div class="card">
         <div class="card-body">
-            <c:if test="${note != null}">
+            <c:if test="${note == null}">
             <form action="createNote" method="post">
                 </c:if>
                 <%--                                    <c:if test="${note == null}">--%>
@@ -28,7 +28,7 @@
                 <%--                                        </c:if>--%>
                 <caption>
                     <h2>
-                        <c:if test="${note != null}">
+                        <c:if test="${note == null}">
                             Create Note
                         </c:if>
                         <%--                            <c:if test="${note == null}">--%>
@@ -37,16 +37,16 @@
                     </h2>
                 </caption>
 
-                <c:if test="${note != null}">
-<%--                    <input type="hidden" name="noteId" value="<c:out value='${note.noteId}' />"/>--%>
-                    <input type="hidden" name="studentId" value="<c:out value='${note.studentId}'/>"/>
+                <c:if test="${note == null}">
+                    <input type="text" name="fio" value="<c:out value='${note.fio}'/>"/>
                 </c:if>
-                <%--                <fieldset class="form-group">--%>
-                <%--                    <label>Name</label> <input type="text" readonly--%>
-                <%--                                               value="<c:out value='${note.studentId}' />" class="form-control"--%>
-                <%--                                               name="client">--%>
-                <%--                </fieldset>--%>
 
+                <p>
+                    <select size="6" multiple name="stringList">
+                        <option value="Evgeniya Barysheva">Evgeniya Barysheva</option>
+                        <option value="Nikolay Gritsenko">Nikolay Gritsenko</option>
+                    </select>
+                </p>
                 <fieldset class=" form-group">
                     <label>Date</label> <input type="date"
                                                value="<c:out value='${note.date}' />" class="form-control"

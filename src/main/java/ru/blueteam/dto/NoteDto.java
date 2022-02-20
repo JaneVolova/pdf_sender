@@ -15,13 +15,13 @@ import java.util.stream.Collectors;
 @Builder
 @Data
 public class NoteDto {
-    private Integer studentId;
+    private String fio;
     private LocalDate date;
     private String description;
 
     public static NoteDto from(Note note) {
         return NoteDto.builder()
-                .studentId(note.getStudentId())
+                .fio(note.getFio())
                 .date(note.getDate())
                 .description(note.getDescription())
                 .build();

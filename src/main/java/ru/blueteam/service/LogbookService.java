@@ -17,6 +17,8 @@ public interface LogbookService {
 
     void createNote(NoteDto noteDto);
 
-    List<Note> findAllNotesByStudent(Integer studentId);
+    List<Note> findAllNotesByStudent(String fio);
+
+    List<String> listName();
 
 }

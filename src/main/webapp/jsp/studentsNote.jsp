@@ -46,7 +46,7 @@
             <c:forEach var="note" items="${listNotes}">
 
                 <tr>
-                    <td><c:out value="${note.studentId}" /></td>
+                    <td><c:out value="${note.fio}" /></td>
                     <td><c:out value="${note.date}" /></td>
                     <td><c:out value="${note.description}" /></td>
 <%--                    <td><c:out value="${user.age}" /></td>--%>
