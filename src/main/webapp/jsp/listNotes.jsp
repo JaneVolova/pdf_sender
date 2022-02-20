@@ -13,8 +13,9 @@
 
 <header>
     <nav class="navbar navbar-expand-md navbar-dark"
+         style="background-color: cadetblue">
 
-    <ul class="navbar-nav">
+        <ul class="navbar-nav">
         <li><a href="<%=request.getContextPath()%>/list"
                class="nav-link">Notes</a></li>
     </ul>
@@ -28,6 +29,7 @@
         <div class="container text-left">
 
             <a href="<%=request.getContextPath()%>/?action=createForm" class="btn btn-success">Add Note</a>
+            <a href="<%=request.getContextPath()%>/?action=showAllStudents" class="btn btn-success">All Students</a>
         </div>
         <h3 class="text-center">List of Notes</h3>
         <hr>

@@ -65,7 +65,6 @@ public class ListNotesServlet extends HttpServlet {
         Command action = actionMap.get(actionKey);
         action.execute(request, response);
 
-
 //        List<String> stringList = logbookService.listName();
 //        request.setAttribute("stringList" ,stringList);
 //        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/create.jsp");

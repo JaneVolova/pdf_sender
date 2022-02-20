@@ -13,7 +13,7 @@
 
 <header>
     <nav class="navbar navbar-expand-md navbar-dark"
-         style="background-color: tomato">
+         style="background-color: cadetblue">
 
         <ul class="navbar-nav">
             <li><a href="<%=request.getContextPath()%>/list"
@@ -22,16 +22,15 @@
     </nav>
 </header>
 <br>
+<div class="container text-left">
 
+    <a href="<%=request.getContextPath()%>/?action=createForm" class="btn btn-success">Add Note</a>
+</div>
+<br>
 <div class="row">
     <div class="container">
         <h3 class="text-center">List of Notes</h3>
         <hr>
-<%--        <div class="container text-left">--%>
-
-<%--            <a href="<%=request.getContextPath()%>/?action=createForm" class="btn btn-success">Add--%>
-<%--                New Note</a>--%>
-<%--        </div>--%>
         <br>
         <table class="table table-bordered">
             <thead>

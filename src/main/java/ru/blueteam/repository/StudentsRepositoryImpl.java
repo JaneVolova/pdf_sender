@@ -46,7 +46,6 @@ public class StudentsRepositoryImpl implements StudentsRepository {
                 }
                 return students;
             }
-
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
         }

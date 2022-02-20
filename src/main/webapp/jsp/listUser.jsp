@@ -13,9 +13,9 @@
 
 <header>
     <nav class="navbar navbar-expand-md navbar-dark"
-    <%--         style="background-color: tomato">--%>
+         style="background-color: cadetblue">
 
-    <ul class="navbar-nav">
+        <ul class="navbar-nav">
         <li><a href="<%=request.getContextPath()%>/list"
                class="nav-link">Notes</a></li>
     </ul>
@@ -23,40 +23,22 @@
 </header>
 <br>
 
-
 <div class="row">
     <div class="container">
-<%--        <div class="container text-left">--%>
 
-<%--&lt;%&ndash;            <a href="<%=request.getContextPath()%>/?action=showAll" class="btn btn-success">User List</a>&ndash;%&gt;--%>
-<%--        </div>--%>
         <h3 class="text-center">List of Students</h3>
         <hr>
         <div class="container text-left">
         </div>
         <br>
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>Name</th>
-            </tr>
-            </thead>
-            <tbody>
-<%--            <c:forEach var="note" items="${listName}">--%>
-
-                <tr>
-<%--                    <td><c:out value="${note.noteId}"/></td>--%>
-                    <td><a href="?action=createNote&fio=Evgeniya"><h3 class="text-center">Evgeniya</h3></a></td>
-<%--                    <td><c:out value="${note.date}"/></td>--%>
-<%--                    <td><c:out value="${note.description}"/></td>--%>
-<%--                    <td><a href="?action=showNotesById&noteId=<c:out value='${note.noteId}' />">Edit</a></td>--%>
-<%--                    <td><a href="?action=deleteNote&noteId=<c:out value='${note.noteId}' />">Delete</a></td>--%>
+                    <tr><a href="list?action=showAllNotesByStudent&fio=Aleksandr%20Korotkov"><h3 class="text-center">Aleksandr Korotkov</h3></a></tr>
+                    <tr><a href="?action=showAllNotesByStudent&fio=Damir%20Yaminov"><h3 class="text-center">Damir Yaminov</h3></a></tr>
+                    <tr><a href="?action=showAllNotesByStudent&fio=Evgeniya%20Barysheva"><h3 class="text-center">Evgeniya Barysheva</h3></a></tr>
+                    <tr><a href="?action=showAllNotesByStudent&fio=Nikolay%20Gritsenko"><h3 class="text-center">Nikolay Gritsenko</h3></a></tr>
+                    <tr><a href="?action=showAllNotesByStudent&fio=Oleg%20Dumava"><h3 class="text-center">Oleg Dumava</h3></a></tr>
+                    <tr><a href="?action=showAllNotesByStudent&fio=Sergey%20Ponomarev"><h3 class="text-center">Sergey Ponomarev</h3></a></tr>
                     </td>
-                </tr>
-<%--            </c:forEach>--%>
-            </tbody>
 
-        </table>
     </div>
 </div>
 </body>
