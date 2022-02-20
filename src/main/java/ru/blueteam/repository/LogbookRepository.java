@@ -1,21 +1,23 @@
 package ru.blueteam.repository;
 
+import ru.blueteam.dto.NoteDto;
 import ru.blueteam.model.Note;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface LogbookRepository {
+    List<Note> findAllNotesByDay(LocalDate date);
 
-    void save(Note note); //сохранить запись
+    List<Note> findAllNotesByStudent(String fio);
 
-    void deleteNoteById(Long noteId);
+    Note findNoteById(Integer noteId);
 
     void updateNote(Note note);
 
-    Note findById(Long noteId);
+    void deleteNote(Integer noteId);
 
-    List<Note> findNotesByDate(Date date); // найти список записей за день
+    void createNote(NoteDto noteDto);
 
-    List<Note> findNotesByUser(Long userId); // найти список записей одного юзера
+    List<String> listFio();
 }

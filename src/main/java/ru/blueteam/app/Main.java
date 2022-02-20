@@ -2,14 +2,12 @@ package ru.blueteam.app;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import ru.blueteam.model.Note;
-import ru.blueteam.repository.LogbookRepository;
-import ru.blueteam.repository.LogbookRepositoryImpl;
+import ru.blueteam.sheduler.SendScheduler;
 
 public class Main {
-    private static final String DB_USERS = "postgres";
-    private static final String DB_PASSWORD = "28679854";
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/pdfsender";
+    private static final String DB_USERS = "sender";
+    private static final String DB_PASSWORD = "strongpassword";
+    private static final String DB_URL = "jdbc:postgresql://34.116.245.1:5432/intensivedb";
 
     public static void main(String[] args) {
 
@@ -22,15 +20,8 @@ public class Main {
 
         HikariDataSource dataSource = new HikariDataSource(config);
 
-        LogbookRepository logbookRepository = new LogbookRepositoryImpl(dataSource);
-//        UserRepository userRepository = new UserRepositoryImpl(dataSource);
+//        LogbookRepository logbookRepository = new LogbookRepositoryImpl(dataSource);
 
-        Note note = Note.builder()
-                .userId(1L)
-                .description("за сегодня сделано много полезных дел!")
-                .build();
-        logbookRepository.save(note);
-
-        System.out.println(logbookRepository.findById(1L).toString());
+        SendScheduler.init();
     }
 }

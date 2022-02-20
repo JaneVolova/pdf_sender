@@ -1,22 +1,34 @@
 package ru.blueteam.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import ru.blueteam.dto.NoteDto;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 public class Note {
 
-    private Long noteId; // нужен ли id записи, будем обращаться ли нет
+    private Integer noteId;
 
-    private Long userId;
-    private Date date;
+    private String fio;
+    private LocalDate date;
     private String description;
-    private Boolean isDeleted;
+
+    public static Note from(NoteDto noteDto) {
+        return Note.builder()
+                .fio(noteDto.getFio())
+                .date(noteDto.getDate())
+                .description(noteDto.getDescription())
+                .build();
+    }
+
+    public static List<Note> from(List<NoteDto> noteDtos) {
+        return noteDtos.stream().map(Note::from).collect(Collectors.toList());
+    }
 }

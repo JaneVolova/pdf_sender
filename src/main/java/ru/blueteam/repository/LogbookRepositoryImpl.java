@@ -1,39 +1,29 @@
 package ru.blueteam.repository;
 
+import ru.blueteam.dto.NoteDto;
 import ru.blueteam.model.Note;
 import ru.blueteam.service.LogbookService;
 import ru.blueteam.service.LogbookServiceImpl;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 
 public class LogbookRepositoryImpl implements LogbookRepository {
 
     private final DataSource dataSource;
-    private LogbookService logbookService;
-    private LogbookRepository logbookRepository;
 
     //language=SQL
-    private final String SQL_SAVE_NOTE = "insert into logbook(user_id, description) values(?,?)";
-
-    //language=SQL
-    private final String SQL_UPDATE_NOTE = "update logbook set date = ?, description = ? where note_id = ?";
-
-    //language=SQL
-    private final String SQL_DELETE_NOTE = "update logbook set is_deleted = true where note_id = ?";
-
-    //language=SQL
-    private final String SQL_FIND_NOTES_BY_DAY = "select * from logbook where date = ?";
-
-    //language=SQL
-    private final String SQL_FIND_NOTES_BY_USER = "select * from logbook where user_id = ?";
-
-    //language=SQL
+    private final String SQL_FIND_ALL_NAMES = "select distinct fio from logbook";
+    private final String SQL_FIND_ALL_NOTES_BY_DAY = "select * from logbook where date = ? order by fio";
+    private final String SQL_FIND_ALL_NOTES_BY_STUDENT = "select * from logbook where fio = ?";
     private final String SQL_FIND_NOTES_BY_ID = "select * from logbook where logbook_id = ?";
+    private final String SQL_UPDATE_NOTE = "update logbook set date = ?, description = ? where logbook_id = ?";
+    private final String SQL_DELETE_NOTE = "delete from logbook where logbook_id = ?";
+    private final String SQL_CREATE_NOTE = "insert into logbook (date,fio, description) values (?,?,?)";
 
 
     public LogbookRepositoryImpl(DataSource dataSource) {
@@ -44,87 +34,62 @@ public class LogbookRepositoryImpl implements LogbookRepository {
     private static final Function<ResultSet, Note> noteMapper = resultSet -> {
         try {
             return Note.builder()
-                    .userId(resultSet.getLong("user_id"))
-                    .date(resultSet.getDate("date"))
+                    .noteId(resultSet.getInt("logbook_id"))
+                    .fio(resultSet.getString("fio"))
+                    .date(resultSet.getDate("date").toLocalDate())
                     .description(resultSet.getString("description"))
                     .build();
-
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
+    };
+    private static final Function<ResultSet, Note> fioMapper = resultSet -> {
+        try {
+            return Note.builder()
+                    .fio(resultSet.getString("fio"))
+                    .build();
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
         }
     };
 
     @Override
-    public void save(Note note) {
+    public List<Note> findAllNotesByDay(LocalDate date) {
+        List<Note> notesByUser = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SAVE_NOTE, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_NOTES_BY_DAY)) {
+            statement.setDate(1, Date.valueOf(date));
 
-            statement.setLong(1, note.getUserId());
-            statement.setString(2, note.getDescription());
-
-            int affectedRows = statement.executeUpdate();
-
-            if (affectedRows != 1) {
-                throw new SQLException("Can't save user");
-            }
-
-            ResultSet generatedKeys = statement.getGeneratedKeys();
-
-            if (generatedKeys.next()) {
-                note.setNoteId(generatedKeys.getLong("logbook_id"));
-            } else {
-                throw new SQLException("Can't get id");
-            }
-
-        } catch (SQLException e) {
-            throw new IllegalArgumentException(e);
-        }
-    }
-
-    @Override
-    public void deleteNoteById(Long noteId) {
-        LogbookService logbookService = new LogbookServiceImpl(this);
-        if (logbookRepository.findById(noteId) != null) {
-            try (Connection connection = dataSource.getConnection();
-                 PreparedStatement statement = connection.prepareStatement(SQL_DELETE_NOTE)) {
-
-                statement.setLong(1, noteId);
-
-                int affectedRows = statement.executeUpdate();
-
-                if (affectedRows != 1) {
-                    throw new SQLException("Can't delete note");
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    notesByUser.add(noteMapper.apply(resultSet));
                 }
-
-            } catch (SQLException e) {
-                throw new IllegalArgumentException(e);
+                return notesByUser;
             }
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
         }
     }
 
-
-    @Override
-    public void updateNote(Note note) {
+    public List<Note> findAllNotesByStudent(String fio) {
+        List<Note> notesByUser = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_NOTE)) {
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_NOTES_BY_STUDENT)) {
+            statement.setString(1, fio);
 
-            statement.setString(1, note.getDate().toString());
-            statement.setString(2, note.getDescription());
-            statement.setLong(3, note.getNoteId());
-
-            int affectedRows = statement.executeUpdate();
-
-            if (affectedRows != 1) {
-                throw new SQLException("Can't update user");
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    notesByUser.add(noteMapper.apply(resultSet));
+                }
+                return notesByUser;
             }
-
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
         }
     }
 
     @Override
-    public Note findById(Long noteId) { // может кто-то переделает на Optional<Note>?
+    public Note findNoteById(Integer noteId) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_NOTES_BY_ID)) {
             statement.setLong(1, noteId);
@@ -133,7 +98,7 @@ public class LogbookRepositoryImpl implements LogbookRepository {
                 if (resultSet.next()) {
                     return noteMapper.apply(resultSet);
                 } else {
-                    throw new IllegalArgumentException("note not found");
+                    throw new IllegalArgumentException("Note not found");
                 }
             }
         } catch (SQLException e) {
@@ -142,15 +107,35 @@ public class LogbookRepositoryImpl implements LogbookRepository {
     }
 
     @Override
-    public List<Note> findNotesByDate(Date date) {
-        List<Note> notes = new ArrayList<>();
+    public void updateNote(Note note) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_FIND_NOTES_BY_DAY)) {
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    notes.add(noteMapper.apply(resultSet));
-                }
-                return notes;
+             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_NOTE)) {
+
+            statement.setDate(1, Date.valueOf(note.getDate()));
+            statement.setString(2, note.getDescription());
+            statement.setInt(3, note.getNoteId());
+
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows != 1) {
+                throw new SQLException("Can't update note");
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    @Override
+    public void deleteNote(Integer noteId) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_DELETE_NOTE)) {
+            statement.setInt(1, noteId);
+
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows != 1) {
+                throw new SQLException("Can't delete note");
             }
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
@@ -158,15 +143,37 @@ public class LogbookRepositoryImpl implements LogbookRepository {
     }
 
     @Override
-    public List<Note> findNotesByUser(Long userId) {
-        List<Note> notesByUser = new ArrayList<>();
+    public void createNote(NoteDto noteDto) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_FIND_NOTES_BY_USER)) {
+             PreparedStatement statement = connection.prepareStatement(SQL_CREATE_NOTE, Statement.RETURN_GENERATED_KEYS)) {
+
+            statement.setDate(1, Date.valueOf(noteDto.getDate()));
+            statement.setString(2, noteDto.getFio());
+            statement.setString(3, noteDto.getDescription());
+
+
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows != 1) {
+                throw new SQLException("Can't create note");
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    @Override
+    public List<String> listFio() {
+        List<String> strings = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_NAMES)) {
+
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    notesByUser.add(noteMapper.apply(resultSet));
+                    strings.add(fioMapper.apply(resultSet).getFio());
                 }
-                return notesByUser;
+                return strings;
             }
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
