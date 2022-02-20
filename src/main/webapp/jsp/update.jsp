@@ -21,19 +21,13 @@
     <div class="card">
         <div class="card-body">
             <c:if test="${note != null}">
-            <form action="updateNote" method="post">
+            <form action="?action=updateNote" method="post">
                                     </c:if>
-<%--                                    <c:if test="${note == null}">--%>
-<%--                                    <form action="createNote" method="post">--%>
-<%--                                        </c:if>--%>
                 <caption>
                     <h2>
                         <c:if test="${note != null}">
                             Edit Note
                         </c:if>
-                            <%--                            <c:if test="${note == null}">--%>
-                            <%--                                Add New Note--%>
-                            <%--                            </c:if>--%>
                     </h2>
                 </caption>
 

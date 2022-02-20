@@ -2,10 +2,7 @@ package ru.blueteam.command;
 
 import ru.blueteam.dto.NoteDto;
 import ru.blueteam.model.Note;
-import ru.blueteam.repository.LogbookRepository;
-import ru.blueteam.repository.LogbookRepositoryImpl;
 import ru.blueteam.service.LogbookService;
-import ru.blueteam.service.LogbookServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -44,7 +41,7 @@ public class Action {
         dispatcher.forward(request, response);
     }
 
-    void updateNote(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    void updateNote(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String fio = request.getParameter("fio");
         Integer noteId = Integer.parseInt(request.getParameter("noteId"));
         LocalDate date = LocalDate.parse(request.getParameter("date"));
@@ -53,28 +50,51 @@ public class Action {
         Note newNote = new Note(noteId, fio, date, description);
         logbookService.updateNote(newNote);
 
-        response.sendRedirect("/");
+        request.getServletContext().getRequestDispatcher("/?action=showAllNotesByDay").forward(request, response);    }
+
+    void createForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String fio = request.getParameter("fio");
+        request.setAttribute("fio", fio);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/create.jsp");
+        dispatcher.forward(request, response);
     }
 
-    void createNote(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    void createNote(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String fio = request.getParameter("fio");
-//        LocalDate date = LocalDate.parse(request.getParameter("date"));
+        LocalDate date = LocalDate.parse(request.getParameter("date"));
         String description = request.getParameter("description");
 
         NoteDto newNote = NoteDto.builder()
                 .fio(fio)
-                .date(LocalDate.now())
+                .date(date)
                 .description(description)
                 .build();
         logbookService.createNote(newNote);
 
-        response.sendRedirect("/");
+        request.getServletContext().getRequestDispatcher("/?action=showAllNotesByDay").forward(request, response);
     }
 
     void deleteNote(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logbookService.deleteNote(Integer.parseInt(request.getParameter("noteId")));
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/listNotes.jsp");
-        dispatcher.forward(request, response);
+
+        request.getServletContext().getRequestDispatcher("/?action=showAllNotesByDay").forward(request, response);
     }
 
+    void showAllStudents(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<String> listName = logbookService.listName();
+        request.setAttribute("listName", listName);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/listUser.jsp");
+        dispatcher.forward(request, response);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+

@@ -16,12 +16,6 @@ public class SenderJob implements Job {
 
 
         String json = ConvertService.convertListToJson(logbookService.findAllNotesByDay());
-//        try {
-//            HttpPostService.sendJsonByUrl(TELEGRAM_ULR, json);
-//            HttpPostService.sendJsonByUrl(MAIL_URL, json);
-//        } catch (IOException e) {
-//            e.getMessage();
-//        }
         System.out.println(json);
 
         System.out.println("Вызов SenderJob по расписанию");

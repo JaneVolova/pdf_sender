@@ -31,6 +31,5 @@ public class SendScheduler {
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
-
     }
 }

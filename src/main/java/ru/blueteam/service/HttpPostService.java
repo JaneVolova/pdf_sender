@@ -9,7 +9,6 @@ public class HttpPostService {
 
     static void sendJsonByUrl(String url, String json) throws IOException {
 
-
         Request.Post(url).bodyString(json, ContentType.APPLICATION_JSON).execute();
     }
 }

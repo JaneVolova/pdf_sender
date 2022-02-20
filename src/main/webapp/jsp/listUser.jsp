@@ -13,6 +13,7 @@
 
 <header>
     <nav class="navbar navbar-expand-md navbar-dark"
+    <%--         style="background-color: tomato">--%>
 
     <ul class="navbar-nav">
         <li><a href="<%=request.getContextPath()%>/list"
@@ -25,11 +26,11 @@
 
 <div class="row">
     <div class="container">
-        <div class="container text-left">
+<%--        <div class="container text-left">--%>
 
-            <a href="<%=request.getContextPath()%>/?action=createForm" class="btn btn-success">Add Note</a>
-        </div>
-        <h3 class="text-center">List of Notes</h3>
+<%--&lt;%&ndash;            <a href="<%=request.getContextPath()%>/?action=showAll" class="btn btn-success">User List</a>&ndash;%&gt;--%>
+<%--        </div>--%>
+        <h3 class="text-center">List of Students</h3>
         <hr>
         <div class="container text-left">
         </div>
@@ -38,22 +39,21 @@
             <thead>
             <tr>
                 <th>Name</th>
-                <th>Date</th>
-                <th>Description</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="note" items="${listNotesByDay}">
+<%--            <c:forEach var="note" items="${listName}">--%>
 
                 <tr>
-                    <td><a href="?action=showAllNotesByStudent&fio=<c:out value='${note.fio}' />"> <c:out value="${note.fio}"/></a></td>
-                    <td><c:out value="${note.date}"/></td>
-                    <td><c:out value="${note.description}"/></td>
-                    <td><a href="?action=showNotesById&noteId=<c:out value='${note.noteId}' />">Edit</a></td>
-                    <td><a href="?action=deleteNote&noteId=<c:out value='${note.noteId}' />">Delete</a></td>
+<%--                    <td><c:out value="${note.noteId}"/></td>--%>
+                    <td><a href="?action=createNote&fio=Evgeniya"><h3 class="text-center">Evgeniya</h3></a></td>
+<%--                    <td><c:out value="${note.date}"/></td>--%>
+<%--                    <td><c:out value="${note.description}"/></td>--%>
+<%--                    <td><a href="?action=showNotesById&noteId=<c:out value='${note.noteId}' />">Edit</a></td>--%>
+<%--                    <td><a href="?action=deleteNote&noteId=<c:out value='${note.noteId}' />">Delete</a></td>--%>
                     </td>
                 </tr>
-            </c:forEach>
+<%--            </c:forEach>--%>
             </tbody>
 
         </table>

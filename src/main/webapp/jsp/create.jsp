@@ -21,32 +21,19 @@
     <div class="card">
         <div class="card-body">
             <c:if test="${note == null}">
-            <form action="createNote" method="post">
+            <form action="?action=createNote" method="post">
                 </c:if>
-                <%--                                    <c:if test="${note == null}">--%>
-                <%--                                    <form action="createNote" method="post">--%>
-                <%--                                        </c:if>--%>
                 <caption>
                     <h2>
                         <c:if test="${note == null}">
                             Create Note
                         </c:if>
-                        <%--                            <c:if test="${note == null}">--%>
-                        <%--                                Add New Note--%>
-                        <%--                            </c:if>--%>
                     </h2>
                 </caption>
 
                 <c:if test="${note == null}">
                     <input type="text" name="fio" value="<c:out value='${note.fio}'/>"/>
                 </c:if>
-
-                <p>
-                    <select size="6" multiple name="stringList">
-                        <option value="Evgeniya Barysheva">Evgeniya Barysheva</option>
-                        <option value="Nikolay Gritsenko">Nikolay Gritsenko</option>
-                    </select>
-                </p>
                 <fieldset class=" form-group">
                     <label>Date</label> <input type="date"
                                                value="<c:out value='${note.date}' />" class="form-control"

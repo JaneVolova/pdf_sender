@@ -31,5 +31,4 @@ public class Note {
     public static List<Note> from(List<NoteDto> noteDtos) {
         return noteDtos.stream().map(Note::from).collect(Collectors.toList());
     }
-
 }
