@@ -1,16 +1,21 @@
 package ru.blueteam.command;
 
+import ru.blueteam.controller.Controller;
+import ru.blueteam.service.LogbookService;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
 public class DashboardLoader {
 
     private DashboardLoader instance = null;
-    //private Dashboard dashboard;
+    private LogbookService logbookService;
+
 
     private static final HashMap<String, Command> actionMap = new HashMap<>();
 
     static {
+            //Controller con = new Controller(); con.getLogbookService())
             actionMap.put("showAllNotesByDay", new ShowAllNotesByDay());
             actionMap.put("showAllNotesByStudent", new ShowAllNotesByStudent());
             actionMap.put("updateNote", new UpdateNote());
@@ -24,14 +29,11 @@ public class DashboardLoader {
 
         String actionKey = request.getParameter("action");
         commands = actionMap.get(actionKey);
-        System.out.println("==================="+commands+"=====================");
-
         // Что делать, если придет неправильная либо пустой параметр команды, которой нет в Мап.
 
         if(actionKey == null || actionKey.isEmpty()) {
             commands = new DefaultCommand();
         }
-        //commands =
         return commands;
     }
 

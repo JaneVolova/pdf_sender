@@ -4,6 +4,7 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class SenderJob implements Job {
     private LogbookService logbookService;
@@ -15,7 +16,12 @@ public class SenderJob implements Job {
     public void execute(JobExecutionContext jobExecutionContext) {
 
 
-        String json = ConvertService.convertListToJson(logbookService.findAllNotesByDay());
+        String json = null;
+        try {
+            json = ConvertService.convertListToJson(logbookService.findAllNotesByDay());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         try {
             HttpPostService.sendJsonByUrl(TELEGRAM_ULR, json);
             HttpPostService.sendJsonByUrl(MAIL_URL, json);

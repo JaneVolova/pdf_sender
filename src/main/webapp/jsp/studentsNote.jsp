@@ -29,14 +29,14 @@
         <hr>
         <div class="container text-left">
 
-            <a href="<%=request.getContextPath()%>/create" class="btn btn-success">Add
+            <a href="<%=request.getContextPath()%>/createNote" class="btn btn-success">Add
                 New Note</a>
         </div>
         <br>
         <table class="table table-bordered">
             <thead>
             <tr>
-<%--                <th>ID</th>--%>
+                <%--                <th>ID</th>--%>
                 <th>Student</th>
                 <th>Date</th>
                 <th>Description</th>
@@ -46,10 +46,10 @@
             <c:forEach var="note" items="${listNotes}">
 
                 <tr>
-                    <td><c:out value="${note.studentId}" /></td>
+                    <td><c:out value="${note.fio}" /></td>
                     <td><c:out value="${note.date}" /></td>
                     <td><c:out value="${note.description}" /></td>
-<%--                    <td><c:out value="${user.age}" /></td>--%>
+                        <%--                    <td><c:out value="${user.age}" /></td>--%>
                     <td><a href="edit?id=<c:out value='${user.id}' />">Edit</a>
                         &nbsp;&nbsp;&nbsp;&nbsp; <a
                                 href="delete?id=<c:out value='${user.id}' />">Delete</a></td>

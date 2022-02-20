@@ -5,10 +5,10 @@ public class Dashboard {
     private String urlDashboard;
     private boolean isRedirect;
 
-    public Dashboard(String urlDashboard, boolean isRedirect) {
+    public Dashboard(String urlDashboard) {
         super();
         this.urlDashboard = urlDashboard;
-        this.isRedirect = isRedirect;
+        //this.isRedirect = isRedirect;
     }
 
     public Dashboard() {

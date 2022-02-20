@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -29,8 +30,8 @@ import java.util.Map;
 @WebServlet("/")
 public class Controller extends HttpServlet {
 
-    private HikariDataSource dataSource;
-    private LogbookService logbookService;
+    private static HikariDataSource dataSource;
+    private static LogbookService logbookService;
 
     //private HashMap<String, Command> action = new HashMap<>();
 
@@ -49,24 +50,33 @@ public class Controller extends HttpServlet {
         System.out.println("Database has been connected.");
         LogbookRepository logbookRepository = new LogbookRepositoryImpl(dataSource);
         this.logbookService = new LogbookServiceImpl(logbookRepository);
+        System.out.println("===================="+dataSource+"===========================");
+        System.out.println("===================="+logbookService+"===========================");
 
         SendScheduler.init();
 
     }
+    public HikariDataSource getDataSource() {
+        return dataSource;
+    }
+    public LogbookService getLogbookService() {
+        return logbookService;
+    }
 
+    /* @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
             ServletException, IOException {
 
-        process(request, response);
+        //process(request, response);
     }
-
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws
             ServletException, IOException {
-        process(request, response);
-    }
+        //process(request, response);
+    }*/
 
     private void process(HttpServletRequest request, HttpServletResponse response) throws
-            IOException, ServletException {
+            IOException, ServletException, SQLException {
         DashboardLoader dashboardLoader = new DashboardLoader();
         Command command = dashboardLoader.defineCommand(request);
         Dashboard page = command.execute(request);
@@ -87,18 +97,18 @@ public class Controller extends HttpServlet {
     private void forward(Dashboard page, HttpServletRequest request, HttpServletResponse response) throws
             IOException, ServletException {
         String url = page.getUrlDashboard();
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp"+url);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
         requestDispatcher.forward(request, response);
 
-        // RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/user-list.jsp");
-        //dispatcher.forward(request, response);
     }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-      /*  String actionKey = request.getParameter("action");
-        Command actionNew = action.get(actionKey);
-        actionNew.execute(request);*/
+        try {
+            process(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 

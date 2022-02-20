@@ -1,8 +1,10 @@
 package ru.blueteam.service;
 
+import ru.blueteam.dto.NoteDto;
 import ru.blueteam.model.Note;
 import ru.blueteam.repository.LogbookRepository;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class LogbookServiceImpl implements LogbookService {
     }
 
     @Override
-    public List<Note> findAllNotesByDay() {
+    public List<Note> findAllNotesByDay() throws SQLException {
         LocalDate date = LocalDate.now();
         return logbookRepository.findAllNotesByDay(date);
     }
@@ -35,8 +37,18 @@ public class LogbookServiceImpl implements LogbookService {
         logbookRepository.deleteNote(noteId);
     }
 
+    //@Override
+    public void createNote(NoteDto noteDto) {
+        logbookRepository.createNote(noteDto);
+    }
+
     @Override
-    public void createNote(Note note) {
-        logbookRepository.createNote(note);
+    public List<Note> findAllNotesByStudent(String fio) {
+        return logbookRepository.findAllNotesByStudent(fio);
+    }
+
+    @Override
+    public List<String> listName() {
+        return logbookRepository.listFio();
     }
 }
