@@ -4,6 +4,9 @@ import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import ru.blueteam.service.SenderJob;
 
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
 public class SendScheduler {
     public static void init() {
         JobDetail jobDetail = JobBuilder.newJob(SenderJob.class).withIdentity("service.SenderJob", "group1").build();
@@ -26,10 +29,14 @@ public class SendScheduler {
 
         try {
             scheduler = sFactory.getScheduler();
+            System.out.println("$$$$$$$$$$$$$$$$");
+
             scheduler.start();
             scheduler.scheduleJob(jobDetail, trigger);
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
     }
+
+
 }

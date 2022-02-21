@@ -2,6 +2,7 @@ package ru.blueteam.servlet;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.SneakyThrows;
 import ru.blueteam.command.*;
 import ru.blueteam.repository.LogbookRepository;
 import ru.blueteam.repository.LogbookRepositoryImpl;
@@ -30,8 +31,9 @@ public class ListNotesServlet extends HttpServlet {
 
     private static Map<String, Command> actionMap = new HashMap<>();
 
+    @SneakyThrows
     @Override
-    public void init(ServletConfig config) {
+    public void init(ServletConfig config)  {
 
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setUsername("sender");
