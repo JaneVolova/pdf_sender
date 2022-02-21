@@ -15,7 +15,7 @@ public class SendScheduler {
                 .newTrigger()
                 .withIdentity("myTrigger", "group1")
                 .withSchedule(
-                        CronScheduleBuilder.cronSchedule("0 15 10 1/1 * ? *"))
+                        CronScheduleBuilder.cronSchedule("0 27 10 1/1 * ? *"))
                 .build();
         /*
          * CRON выражения для тестирования
