@@ -14,8 +14,8 @@ public class SendScheduler {
         CronTrigger trigger = TriggerBuilder
                 .newTrigger()
                 .withIdentity("myTrigger", "group1")
-                .forJob(jobDetail).withSchedule(
-                        CronScheduleBuilder.cronSchedule("0 0/1 * 1/1 * ? *"))
+                .withSchedule(
+                        CronScheduleBuilder.cronSchedule("0 05 10 1/1 * ? *"))
                 .build();
         /*
          * CRON выражения для тестирования
