@@ -55,6 +55,8 @@ public class LogbookRepositoryImpl implements LogbookRepository {
 
     @Override
     public List<Note> findAllNotesByDay(LocalDate date) {
+        System.out.println("findAllNotesByDay@@@@@@@DAO");
+        System.out.println(date);
         List<Note> notesByUser = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_NOTES_BY_DAY)) {
@@ -64,6 +66,7 @@ public class LogbookRepositoryImpl implements LogbookRepository {
                 while (resultSet.next()) {
                     notesByUser.add(noteMapper.apply(resultSet));
                 }
+                System.out.println(notesByUser);
                 return notesByUser;
             }
         } catch (SQLException e) {
