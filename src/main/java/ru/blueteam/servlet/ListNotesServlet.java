@@ -27,7 +27,6 @@ public class ListNotesServlet extends HttpServlet {
 
     private HikariDataSource dataSource;
     private LogbookService logbookService;
-    private StudentService studentService;
 
     private static Map<String, Command> actionMap = new HashMap<>();
 
@@ -66,12 +65,6 @@ public class ListNotesServlet extends HttpServlet {
         String actionKey = request.getParameter("action");
         Command action = actionMap.get(actionKey);
         action.execute(request, response);
-
-//        List<String> stringList = logbookService.listName();
-//        request.setAttribute("stringList" ,stringList);
-//        RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/create.jsp");
-//        dispatcher.forward(request, response);
-//        response.sendRedirect("/?action=showAllNotesByDay");
     }
 
     @Override

@@ -9,7 +9,7 @@ import ru.blueteam.repository.LogbookRepositoryImpl;
 
 import java.io.IOException;
 
-public class SenderJob  implements Job {
+public class SenderJob implements Job {
     private HikariDataSource dataSource;
     private LogbookService logbookService;
 
@@ -27,18 +27,15 @@ public class SenderJob  implements Job {
 
         System.out.println("Database connection inits success");
         dataSource = new HikariDataSource(hikariConfig);
-        System.out.println("ressssss");
         LogbookRepository logbookRepository = new LogbookRepositoryImpl(dataSource);
         this.logbookService = new LogbookServiceImpl(logbookRepository);
         String json = ConvertService.convertListToJson(logbookService.findAllNotesByDay());
         System.out.println(json);
         try {
-            System.out.println("@@@@@@@@@@@");
-
             HttpPostService.sendJsonByUrl(TELEGRAM_ULR, json);
             HttpPostService.sendJsonByUrl(MAIL_URL, json);
         } catch (IOException e) {
-           System.err.println("Ошибка отправки на стороннее приложение");
+            System.err.println("Ошибка отправки на стороннее приложение");
         }
         dataSource.close();
     }

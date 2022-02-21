@@ -50,7 +50,8 @@ public class Action {
         Note newNote = new Note(noteId, fio, date, description);
         logbookService.updateNote(newNote);
 
-        request.getServletContext().getRequestDispatcher("/?action=showAllNotesByDay").forward(request, response);    }
+        request.getServletContext().getRequestDispatcher("/?action=showAllNotesByDay").forward(request, response);
+    }
 
     void createForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String fio = request.getParameter("fio");

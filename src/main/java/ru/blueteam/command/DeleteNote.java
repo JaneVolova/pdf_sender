@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class DeleteNote implements Command{
+public class DeleteNote implements Command {
 
     private LogbookService logbookService;
 

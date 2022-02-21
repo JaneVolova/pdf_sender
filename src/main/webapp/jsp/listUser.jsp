@@ -16,9 +16,9 @@
          style="background-color: cadetblue">
 
         <ul class="navbar-nav">
-        <li><a href="<%=request.getContextPath()%>/list"
-               class="nav-link">Notes</a></li>
-    </ul>
+            <li><a href="<%=request.getContextPath()%>/list"
+                   class="nav-link">Notes</a></li>
+        </ul>
     </nav>
 </header>
 <br>
@@ -31,13 +31,18 @@
         <div class="container text-left">
         </div>
         <br>
-                    <tr><a href="list?action=showAllNotesByStudent&fio=Aleksandr%20Korotkov"><h3 class="text-center">Aleksandr Korotkov</h3></a></tr>
-                    <tr><a href="?action=showAllNotesByStudent&fio=Damir%20Yaminov"><h3 class="text-center">Damir Yaminov</h3></a></tr>
-                    <tr><a href="?action=showAllNotesByStudent&fio=Evgeniya%20Barysheva"><h3 class="text-center">Evgeniya Barysheva</h3></a></tr>
-                    <tr><a href="?action=showAllNotesByStudent&fio=Nikolay%20Gritsenko"><h3 class="text-center">Nikolay Gritsenko</h3></a></tr>
-                    <tr><a href="?action=showAllNotesByStudent&fio=Oleg%20Dumava"><h3 class="text-center">Oleg Dumava</h3></a></tr>
-                    <tr><a href="?action=showAllNotesByStudent&fio=Sergey%20Ponomarev"><h3 class="text-center">Sergey Ponomarev</h3></a></tr>
-                    </td>
+        <tr><a href="list?action=showAllNotesByStudent&fio=Aleksandr%20Korotkov"><h3 class="text-center">Aleksandr
+            Korotkov</h3></a></tr>
+        <tr><a href="?action=showAllNotesByStudent&fio=Damir%20Yaminov"><h3 class="text-center">Damir Yaminov</h3></a>
+        </tr>
+        <tr><a href="?action=showAllNotesByStudent&fio=Evgeniya%20Barysheva"><h3 class="text-center">Evgeniya
+            Barysheva</h3></a></tr>
+        <tr><a href="?action=showAllNotesByStudent&fio=Nikolay%20Gritsenko"><h3 class="text-center">Nikolay
+            Gritsenko</h3></a></tr>
+        <tr><a href="?action=showAllNotesByStudent&fio=Oleg%20Dumava"><h3 class="text-center">Oleg Dumava</h3></a></tr>
+        <tr><a href="?action=showAllNotesByStudent&fio=Sergey%20Ponomarev"><h3 class="text-center">Sergey Ponomarev</h3>
+        </a></tr>
+        </td>
 
     </div>
 </div>

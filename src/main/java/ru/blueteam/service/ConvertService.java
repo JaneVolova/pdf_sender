@@ -9,8 +9,6 @@ import java.util.List;
 public class ConvertService {
 
     public static String convertListToJson(List<Note> list) {
-        System.out.println(list);
-        System.out.println("convertListToJsonWWWWW");
         ObjectMapper objectMapper = new ObjectMapper();
         String json = "";
         try {

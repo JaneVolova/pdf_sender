@@ -13,7 +13,6 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-dark"
          style="background-color: deepskyblue">
-
     </nav>
 </header>
 <br>
@@ -22,7 +21,7 @@
         <div class="card-body">
             <c:if test="${note != null}">
             <form action="?action=updateNote" method="post">
-                                    </c:if>
+                </c:if>
                 <caption>
                     <h2>
                         <c:if test="${note != null}">
@@ -30,26 +29,21 @@
                         </c:if>
                     </h2>
                 </caption>
-
                 <c:if test="${note != null}">
                     <input type="hidden" name="noteId" value="<c:out value='${note.noteId}' />"/>
                     <input type="hidden" name="fio" value="<c:out value='${note.fio}'/>"/>
                 </c:if>
-
                 <fieldset class=" form-group">
                     <label>Date</label> <input type="date"
                                                value="<c:out value='${note.date}' />" class="form-control"
                                                name="date" required="required">
                 </fieldset>
-
-
                 <fieldset class="form-group">
                     <label>Description</label> <input type="text"
                                                       value="<c:out value='${note.description}' />"
                                                       class="form-control"
                                                       name="description">
                 </fieldset>
-
                 <button type="submit" class="btn btn-success">Save</button>
 
             </form>

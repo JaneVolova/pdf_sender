@@ -27,7 +27,6 @@ public class LogbookServiceImpl implements LogbookService {
 
     @Override
     public List<Note> findAllNotesByDay() {
-        System.out.println("findAllNotesByDayQQQQQQQQQQ");
         LocalDate date = LocalDate.now();
         return logbookRepository.findAllNotesByDay(date);
     }

@@ -1,7 +1,7 @@
 package ru.blueteam.service;
 
-import org.apache.http.entity.ContentType;
 import org.apache.http.client.fluent.Request;
+import org.apache.http.entity.ContentType;
 
 import java.io.IOException;
 
